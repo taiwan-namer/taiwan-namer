@@ -1,0 +1,273 @@
+"use client";
+
+import { useState } from "react";
+import {
+  Sparkles,
+  LogIn,
+  Search,
+  Wand2,
+  Zap,
+  Globe,
+  CheckCircle2,
+  XCircle,
+  Loader2,
+  AlertCircle,
+} from "lucide-react";
+
+type DomainResult = {
+  name: string;
+  meaning: string;
+  status: "available" | "taken";
+  price: number;
+};
+
+export default function Home() {
+  const [keyword, setKeyword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [results, setResults] = useState<DomainResult[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleGenerate() {
+    setError(null);
+    setResults(null);
+    setLoading(true);
+    try {
+      const res = await fetch("/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ keyword: keyword || "珍珠奶茶、好運" }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data?.error || `請求失敗 (${res.status})`);
+        return;
+      }
+      if (Array.isArray(data?.domains)) {
+        setResults(data.domains);
+      } else {
+        setError("回傳格式錯誤");
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "連線失敗");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-[#0a0a0a] relative overflow-hidden">
+      {/* 背景漸層光暈 */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-violet-500/20 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute top-1/3 right-0 w-[500px] h-[400px] bg-blue-500/15 rounded-full blur-[100px]" />
+        <div className="absolute bottom-1/4 left-0 w-[400px] h-[300px] bg-pink-500/10 rounded-full blur-[80px]" />
+      </div>
+
+      {/* Navbar */}
+      <nav className="relative z-10 border-b border-white/5">
+        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+          <a href="/" className="flex items-center gap-2.5 text-zinc-100 hover:text-white transition-colors">
+            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-violet-500 to-pink-500 flex items-center justify-center shadow-lg shadow-violet-500/25">
+              <Sparkles className="w-5 h-5 text-white" />
+            </div>
+            <span className="font-semibold text-lg tracking-tight">
+              台味命名大師
+            </span>
+            <span className="text-zinc-500 text-sm font-normal">Taiwan Namer</span>
+          </a>
+          <button className="flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 text-sm font-medium transition-all">
+            <LogIn className="w-4 h-4" />
+            登入
+          </button>
+        </div>
+      </nav>
+
+      <main className="relative z-10 max-w-6xl mx-auto px-6 pt-16 pb-24">
+        {/* Hero Section */}
+        <section className="text-center pt-12 pb-16">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-6">
+            <span className="bg-gradient-to-r from-violet-400 via-blue-400 to-pink-400 bg-clip-text text-transparent">
+              用 AI 幫你的品牌算個好命
+            </span>
+          </h1>
+          <p className="text-zinc-400 text-lg sm:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
+            全台唯一！專懂台灣諧音梗、在地文化、算命筆畫的網域生成器。
+          </p>
+
+          {/* 搜尋框 + CTA */}
+          <div className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto">
+            <div className="flex-1 relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
+              <input
+                type="text"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+                placeholder="輸入關鍵字（例：珍珠奶茶、好運）"
+                className="w-full pl-12 pr-4 py-4 rounded-xl bg-white/5 border border-white/10 placeholder:text-zinc-500 text-zinc-100 focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition-all"
+                disabled={loading}
+              />
+            </div>
+            <button
+              onClick={handleGenerate}
+              disabled={loading}
+              className="glow-btn flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-violet-500 to-violet-600 text-white font-semibold text-base whitespace-nowrap disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {loading ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <Wand2 className="w-5 h-5" />
+              )}
+              {loading ? "算命中…" : "開始算命"}
+            </button>
+          </div>
+
+          {/* 結果卡片區域 */}
+          <div className="mt-14">
+            {loading && (
+              <div className="flex flex-col items-center justify-center gap-4 py-12">
+                <Loader2 className="w-12 h-12 text-violet-400 animate-spin" />
+                <p className="text-zinc-500 text-sm">AI 正在為你算命…</p>
+              </div>
+            )}
+            {error && !loading && (
+              <div className="glass rounded-xl p-4 max-w-2xl mx-auto flex items-center gap-3 text-red-400 border-red-500/30">
+                <AlertCircle className="w-5 h-5 shrink-0" />
+                <p className="text-sm">{error}</p>
+              </div>
+            )}
+            {results && results.length > 0 && !loading && (
+              <>
+                <p className="text-zinc-500 text-sm mb-6">AI 算命結果</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
+                  {results.map((item, i) => (
+                    <div
+                      key={i}
+                      className="glass rounded-xl p-4 text-left hover:border-white/15 transition-colors"
+                    >
+                      <div className="font-mono font-semibold text-violet-300 mb-1">
+                        {item.name}
+                      </div>
+                      <div className="text-zinc-500 text-sm mb-3">
+                        {item.meaning}
+                      </div>
+                      <div className="flex items-center justify-between">
+                        {item.status === "available" ? (
+                          <>
+                            <span className="flex items-center gap-1.5 text-emerald-400 text-sm">
+                              <CheckCircle2 className="w-4 h-4" />
+                              可註冊
+                            </span>
+                            <span className="text-zinc-400 text-sm">
+                              ${item.price}/年
+                            </span>
+                          </>
+                        ) : (
+                          <span className="flex items-center gap-1.5 text-red-400 text-sm">
+                            <XCircle className="w-4 h-4" />
+                            已被註冊
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+            {!loading && !error && !results?.length && (
+              <>
+                <p className="text-zinc-500 text-sm mb-6">搜尋結果範例</p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto">
+                  <div className="glass rounded-xl p-4 text-left hover:border-white/15 transition-colors">
+                    <div className="font-mono font-semibold text-violet-300 mb-1">
+                      WuCha.com
+                    </div>
+                    <div className="text-zinc-500 text-sm mb-3">無查 / 找茶</div>
+                    <div className="flex items-center justify-between">
+                      <span className="flex items-center gap-1.5 text-emerald-400 text-sm">
+                        <CheckCircle2 className="w-4 h-4" />
+                        可註冊
+                      </span>
+                      <span className="text-zinc-400 text-sm">$12/年</span>
+                    </div>
+                  </div>
+                  <div className="glass rounded-xl p-4 text-left hover:border-white/15 transition-colors">
+                    <div className="font-mono font-semibold text-violet-300 mb-1">
+                      HaoLin.tw
+                    </div>
+                    <div className="text-zinc-500 text-sm mb-3">好拎</div>
+                    <div className="flex items-center justify-between">
+                      <span className="flex items-center gap-1.5 text-red-400 text-sm">
+                        <XCircle className="w-4 h-4" />
+                        已被註冊
+                      </span>
+                    </div>
+                  </div>
+                  <div className="glass rounded-xl p-4 text-left hover:border-white/15 transition-colors">
+                    <div className="font-mono font-semibold text-violet-300 mb-1">
+                      TeaMe.io
+                    </div>
+                    <div className="text-zinc-500 text-sm mb-3">挺你</div>
+                    <div className="flex items-center justify-between">
+                      <span className="flex items-center gap-1.5 text-emerald-400 text-sm">
+                        <CheckCircle2 className="w-4 h-4" />
+                        可註冊
+                      </span>
+                      <span className="text-zinc-400 text-sm">$35/年</span>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </section>
+
+        {/* Features 特色區塊 */}
+        <section className="pt-20 pb-16">
+          <h2 className="text-2xl font-semibold text-center text-zinc-200 mb-12">
+            三大特色
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="glass rounded-2xl p-6 hover:border-white/15 transition-all group">
+              <div className="w-12 h-12 rounded-xl bg-violet-500/20 flex items-center justify-center mb-4 group-hover:bg-violet-500/30 transition-colors">
+                <Search className="w-6 h-6 text-violet-400" />
+              </div>
+              <h3 className="font-semibold text-lg text-zinc-100 mb-2">
+                諧音梗生成
+              </h3>
+              <p className="text-zinc-500 text-sm leading-relaxed">
+                例：TeaMe → 挺你，讓品牌名好記又有梗，一秒打進台灣人的心。
+              </p>
+            </div>
+            <div className="glass rounded-2xl p-6 hover:border-white/15 transition-all group">
+              <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center mb-4 group-hover:bg-blue-500/30 transition-colors">
+                <Wand2 className="w-6 h-6 text-blue-400" />
+              </div>
+              <h3 className="font-semibold text-lg text-zinc-100 mb-2">
+                算命學命名
+              </h3>
+              <p className="text-zinc-500 text-sm leading-relaxed">
+                結合五行八字與筆畫吉凶，取一個對事業、財運都有助益的網域。
+              </p>
+            </div>
+            <div className="glass rounded-2xl p-6 hover:border-white/15 transition-all group">
+              <div className="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center mb-4 group-hover:bg-amber-500/30 transition-colors">
+                <Zap className="w-6 h-6 text-amber-400" />
+              </div>
+              <h3 className="font-semibold text-lg text-zinc-100 mb-2">
+                秒查網域
+              </h3>
+              <p className="text-zinc-500 text-sm leading-relaxed">
+                即時檢查 .tw / .com / .io 等熱門後綴，可註冊與價格一目了然。
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* 裝飾用 Globe 圖示（可選） */}
+        <div className="flex justify-center text-zinc-700/50 pt-8">
+          <Globe className="w-8 h-8" />
+        </div>
+      </main>
+    </div>
+  );
+}
