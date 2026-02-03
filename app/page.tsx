@@ -7,17 +7,15 @@ import {
   Wand2,
   Zap,
   Globe,
-  CheckCircle2,
-  XCircle,
   Loader2,
   AlertCircle,
   ExternalLink,
 } from "lucide-react";
 
 type DomainResult = {
-  name: string;
+  domain: string;
   meaning: string;
-  status: "available" | "taken";
+  name: string;
 };
 
 export default function Home() {
@@ -135,7 +133,7 @@ export default function Home() {
                 <p className="text-zinc-500 text-sm mb-6">AI 算命結果 · 前往註冊商比價</p>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 max-w-4xl mx-auto">
                   {results.map((item, i) => {
-                    const domain = item.name.replace(/^\s*https?:\/\//i, "").split("/")[0] || item.name;
+                    const domain = item.domain.replace(/^\s*https?:\/\//i, "").split("/")[0] || item.domain;
                     const godaddyUrl = `https://www.godaddy.com/domainsearch/find?checkAvail=1&domainToCheck=${encodeURIComponent(domain)}`;
                     const namecheapUrl = `https://www.namecheap.com/domains/registration/results/?domain=${encodeURIComponent(domain)}`;
                     return (
@@ -143,23 +141,16 @@ export default function Home() {
                         key={i}
                         className="glass rounded-xl p-5 text-left hover:border-white/15 transition-colors border border-white/5"
                       >
-                        <div className="flex items-start justify-between gap-3 mb-2">
-                          <span className="font-mono font-semibold text-violet-300 text-lg break-all">
-                            {item.name}
-                          </span>
-                          {item.status === "available" ? (
-                            <span className="flex items-center gap-1.5 text-emerald-400 text-sm shrink-0">
-                              <CheckCircle2 className="w-4 h-4" />
-                              可註冊
-                            </span>
-                          ) : (
-                            <span className="flex items-center gap-1.5 text-red-400 text-sm shrink-0">
-                              <XCircle className="w-4 h-4" />
-                              已被註冊
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-zinc-500 text-sm mb-4">{item.meaning}</p>
+                        <span className="font-mono font-semibold text-violet-300 text-lg break-all block mb-1">
+                          {item.domain}
+                        </span>
+                        {item.name && (
+                          <p className="text-zinc-400 text-sm mb-0.5">{item.name}</p>
+                        )}
+                        {item.meaning && (
+                          <p className="text-zinc-500 text-sm mb-3">{item.meaning}</p>
+                        )}
+                        <p className="text-zinc-500/80 text-xs mb-4">點擊下方查詢最新狀態</p>
                         <div className="flex flex-col sm:flex-row gap-2">
                           <a
                             href={godaddyUrl}
@@ -191,13 +182,10 @@ export default function Home() {
                 <p className="text-zinc-500 text-sm mb-6">搜尋結果範例 · 前往註冊商比價</p>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 max-w-4xl mx-auto">
                   <div className="glass rounded-xl p-5 text-left hover:border-white/15 transition-colors border border-white/5">
-                    <div className="flex items-start justify-between gap-3 mb-2">
-                      <span className="font-mono font-semibold text-violet-300 text-lg">WuCha.com</span>
-                      <span className="flex items-center gap-1.5 text-emerald-400 text-sm shrink-0">
-                        <CheckCircle2 className="w-4 h-4" />可註冊
-                      </span>
-                    </div>
-                    <p className="text-zinc-500 text-sm mb-4">無查 / 找茶</p>
+                    <span className="font-mono font-semibold text-violet-300 text-lg block mb-1">WuCha.com</span>
+                    <p className="text-zinc-400 text-sm mb-0.5">無查</p>
+                    <p className="text-zinc-500 text-sm mb-3">無查 / 找茶，茶飲品牌感</p>
+                    <p className="text-zinc-500/80 text-xs mb-4">點擊下方查詢最新狀態</p>
                     <div className="flex flex-col sm:flex-row gap-2">
                       <a href="https://www.godaddy.com/domainsearch/find?checkAvail=1&domainToCheck=WuCha.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px] sm:min-h-0">
                         <ExternalLink className="w-4 h-4 shrink-0" />前往 GoDaddy 查價
@@ -208,13 +196,10 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="glass rounded-xl p-5 text-left hover:border-white/15 transition-colors border border-white/5">
-                    <div className="flex items-start justify-between gap-3 mb-2">
-                      <span className="font-mono font-semibold text-violet-300 text-lg">TeaMe.io</span>
-                      <span className="flex items-center gap-1.5 text-emerald-400 text-sm shrink-0">
-                        <CheckCircle2 className="w-4 h-4" />可註冊
-                      </span>
-                    </div>
-                    <p className="text-zinc-500 text-sm mb-4">挺你</p>
+                    <span className="font-mono font-semibold text-violet-300 text-lg block mb-1">TeaMe.io</span>
+                    <p className="text-zinc-400 text-sm mb-0.5">挺你</p>
+                    <p className="text-zinc-500 text-sm mb-3">諧音「挺你」，好記又有梗</p>
+                    <p className="text-zinc-500/80 text-xs mb-4">點擊下方查詢最新狀態</p>
                     <div className="flex flex-col sm:flex-row gap-2">
                       <a href="https://www.godaddy.com/domainsearch/find?checkAvail=1&domainToCheck=TeaMe.io" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px] sm:min-h-0">
                         <ExternalLink className="w-4 h-4 shrink-0" />前往 GoDaddy 查價
