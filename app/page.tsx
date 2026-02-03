@@ -149,7 +149,7 @@ export default function Home() {
             {results && results.length > 0 && !loading && (
               <>
                 <p className="text-zinc-500 text-sm mb-6">AI 算命結果 · 前往註冊商比價</p>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 max-w-4xl mx-auto">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 max-w-4xl mx-auto items-stretch">
                   {results.map((item, i) => {
                     const domain = item.domain.replace(/^\s*https?:\/\//i, "").split("/")[0] || item.domain;
                     const showNamecheap = !isTwDomain(domain);
@@ -158,9 +158,10 @@ export default function Home() {
                     return (
                       <div
                         key={i}
-                        className="glass rounded-xl p-5 text-left hover:border-white/15 transition-colors border border-white/5 flex flex-col justify-between min-h-[280px]"
+                        className="h-full flex flex-col rounded-xl overflow-hidden border border-white/5 hover:border-white/15 transition-colors min-h-[260px]"
                       >
-                        <div>
+                        {/* Info Body — 網域、含義、價格 */}
+                        <div className="flex-1 min-h-0 p-5 bg-white/10 text-left">
                           <span className="font-mono font-semibold text-violet-300 text-lg break-all block mb-1">
                             {item.domain}
                           </span>
@@ -178,7 +179,8 @@ export default function Home() {
                           )}
                           <p className="text-zinc-500/80 text-xs">點擊下方查詢最新狀態</p>
                         </div>
-                        <div className="mt-auto mt-4 pt-4 border-t border-white/10 bg-white/[0.03] -mx-5 px-5 pb-5 flex flex-col gap-3">
+                        {/* Action Footer — 按鈕區，視覺切割 */}
+                        <div className="flex-shrink-0 p-4 bg-black/20 flex flex-col space-y-2">
                           <a
                             href={godaddyUrl}
                             target="_blank"
@@ -209,10 +211,10 @@ export default function Home() {
             {!loading && !error && !results?.length && (
               <>
                 <p className="text-zinc-500 text-sm mb-6">搜尋結果範例 · 前往註冊商比價</p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
-                  {/* 範例 1 .com — 雙按鈕，垂直堆疊 */}
-                  <div className="glass rounded-xl p-5 text-left hover:border-white/15 transition-colors border border-white/5 flex flex-col justify-between min-h-[280px]">
-                    <div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto items-stretch">
+                  {/* 範例 1 .com — Header + Footer，雙按鈕垂直堆疊 */}
+                  <div className="h-full flex flex-col rounded-xl overflow-hidden border border-white/5 hover:border-white/15 transition-colors min-h-[260px]">
+                    <div className="flex-1 min-h-0 p-5 bg-white/10 text-left">
                       <span className="font-mono font-semibold text-violet-300 text-lg block mb-1">WuCha.com</span>
                       <p className="text-zinc-400 text-sm mb-0.5">無茶 / 舞茶</p>
                       <p className="text-zinc-500 text-sm mb-2">無查／找茶，茶飲品牌感</p>
@@ -220,7 +222,7 @@ export default function Home() {
                       <p className="text-zinc-500/70 text-xs mb-3" title="實際價格以註冊商為準">實際價格以註冊商為準</p>
                       <p className="text-zinc-500/80 text-xs">點擊下方查詢最新狀態</p>
                     </div>
-                    <div className="mt-auto mt-4 pt-4 border-t border-white/10 bg-white/[0.03] -mx-5 px-5 pb-5 flex flex-col gap-3">
+                    <div className="flex-shrink-0 p-4 bg-black/20 flex flex-col space-y-2">
                       <a href="https://www.godaddy.com/domainsearch/find?checkAvail=1&domainToCheck=WuCha.com" target="_blank" rel="noopener noreferrer" className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px]">
                         <ExternalLink className="w-4 h-4 shrink-0" />前往 GoDaddy 查價
                       </a>
@@ -229,9 +231,9 @@ export default function Home() {
                       </a>
                     </div>
                   </div>
-                  {/* 範例 2 .tw — 僅 GoDaddy，長條按鈕 */}
-                  <div className="glass rounded-xl p-5 text-left hover:border-white/15 transition-colors border border-white/5 flex flex-col justify-between min-h-[280px]">
-                    <div>
+                  {/* 範例 2 .tw — 僅 GoDaddy */}
+                  <div className="h-full flex flex-col rounded-xl overflow-hidden border border-white/5 hover:border-white/15 transition-colors min-h-[260px]">
+                    <div className="flex-1 min-h-0 p-5 bg-white/10 text-left">
                       <span className="font-mono font-semibold text-violet-300 text-lg block mb-1">SongLa.tw</span>
                       <p className="text-zinc-400 text-sm mb-0.5">爽啦</p>
                       <p className="text-zinc-500 text-sm mb-2">諧音「爽啦」，傳達暢快感</p>
@@ -239,15 +241,15 @@ export default function Home() {
                       <p className="text-zinc-500/70 text-xs mb-3" title="實際價格以註冊商為準">實際價格以註冊商為準</p>
                       <p className="text-zinc-500/80 text-xs">點擊下方查詢最新狀態</p>
                     </div>
-                    <div className="mt-auto mt-4 pt-4 border-t border-white/10 bg-white/[0.03] -mx-5 px-5 pb-5 flex flex-col gap-3">
+                    <div className="flex-shrink-0 p-4 bg-black/20 flex flex-col space-y-2">
                       <a href="https://www.godaddy.com/domainsearch/find?checkAvail=1&domainToCheck=SongLa.tw" target="_blank" rel="noopener noreferrer" className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px]">
                         <ExternalLink className="w-4 h-4 shrink-0" />前往 GoDaddy 查價
                       </a>
                     </div>
                   </div>
-                  {/* 範例 3 .io — 雙按鈕，垂直堆疊 */}
-                  <div className="glass rounded-xl p-5 text-left hover:border-white/15 transition-colors border border-white/5 flex flex-col justify-between min-h-[280px]">
-                    <div>
+                  {/* 範例 3 .io — Header + Footer，雙按鈕垂直堆疊 */}
+                  <div className="h-full flex flex-col rounded-xl overflow-hidden border border-white/5 hover:border-white/15 transition-colors min-h-[260px]">
+                    <div className="flex-1 min-h-0 p-5 bg-white/10 text-left">
                       <span className="font-mono font-semibold text-violet-300 text-lg block mb-1">TeaMe.io</span>
                       <p className="text-zinc-400 text-sm mb-0.5">挺你</p>
                       <p className="text-zinc-500 text-sm mb-2">諧音「挺你」，好記又有梗</p>
@@ -255,7 +257,7 @@ export default function Home() {
                       <p className="text-zinc-500/70 text-xs mb-3" title="實際價格以註冊商為準">實際價格以註冊商為準</p>
                       <p className="text-zinc-500/80 text-xs">點擊下方查詢最新狀態</p>
                     </div>
-                    <div className="mt-auto mt-4 pt-4 border-t border-white/10 bg-white/[0.03] -mx-5 px-5 pb-5 flex flex-col gap-3">
+                    <div className="flex-shrink-0 p-4 bg-black/20 flex flex-col space-y-2">
                       <a href="https://www.godaddy.com/domainsearch/find?checkAvail=1&domainToCheck=TeaMe.io" target="_blank" rel="noopener noreferrer" className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px]">
                         <ExternalLink className="w-4 h-4 shrink-0" />前往 GoDaddy 查價
                       </a>
