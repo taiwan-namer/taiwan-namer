@@ -3,7 +3,6 @@
 import { useState } from "react";
 import {
   Sparkles,
-  LogIn,
   Search,
   Wand2,
   Zap,
@@ -12,13 +11,13 @@ import {
   XCircle,
   Loader2,
   AlertCircle,
+  ExternalLink,
 } from "lucide-react";
 
 type DomainResult = {
   name: string;
   meaning: string;
   status: "available" | "taken";
-  price: number;
 };
 
 export default function Home() {
@@ -75,10 +74,6 @@ export default function Home() {
             </span>
             <span className="text-zinc-500 text-sm font-normal">Taiwan Namer</span>
           </a>
-          <button className="flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 text-sm font-medium transition-all">
-            <LogIn className="w-4 h-4" />
-            登入
-          </button>
         </div>
       </nav>
 
@@ -137,82 +132,96 @@ export default function Home() {
             )}
             {results && results.length > 0 && !loading && (
               <>
-                <p className="text-zinc-500 text-sm mb-6">AI 算命結果</p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
-                  {results.map((item, i) => (
-                    <div
-                      key={i}
-                      className="glass rounded-xl p-4 text-left hover:border-white/15 transition-colors"
-                    >
-                      <div className="font-mono font-semibold text-violet-300 mb-1">
-                        {item.name}
-                      </div>
-                      <div className="text-zinc-500 text-sm mb-3">
-                        {item.meaning}
-                      </div>
-                      <div className="flex items-center justify-between">
-                        {item.status === "available" ? (
-                          <>
-                            <span className="flex items-center gap-1.5 text-emerald-400 text-sm">
+                <p className="text-zinc-500 text-sm mb-6">AI 算命結果 · 前往註冊商比價</p>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 max-w-4xl mx-auto">
+                  {results.map((item, i) => {
+                    const domain = item.name.replace(/^\s*https?:\/\//i, "").split("/")[0] || item.name;
+                    const godaddyUrl = `https://www.godaddy.com/domainsearch/find?checkAvail=1&domainToCheck=${encodeURIComponent(domain)}`;
+                    const namecheapUrl = `https://www.namecheap.com/domains/registration/results/?domain=${encodeURIComponent(domain)}`;
+                    return (
+                      <div
+                        key={i}
+                        className="glass rounded-xl p-5 text-left hover:border-white/15 transition-colors border border-white/5"
+                      >
+                        <div className="flex items-start justify-between gap-3 mb-2">
+                          <span className="font-mono font-semibold text-violet-300 text-lg break-all">
+                            {item.name}
+                          </span>
+                          {item.status === "available" ? (
+                            <span className="flex items-center gap-1.5 text-emerald-400 text-sm shrink-0">
                               <CheckCircle2 className="w-4 h-4" />
                               可註冊
                             </span>
-                            <span className="text-zinc-400 text-sm">
-                              ${item.price}/年
+                          ) : (
+                            <span className="flex items-center gap-1.5 text-red-400 text-sm shrink-0">
+                              <XCircle className="w-4 h-4" />
+                              已被註冊
                             </span>
-                          </>
-                        ) : (
-                          <span className="flex items-center gap-1.5 text-red-400 text-sm">
-                            <XCircle className="w-4 h-4" />
-                            已被註冊
-                          </span>
-                        )}
+                          )}
+                        </div>
+                        <p className="text-zinc-500 text-sm mb-4">{item.meaning}</p>
+                        <div className="flex flex-col sm:flex-row gap-2">
+                          <a
+                            href={godaddyUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px] sm:min-h-0"
+                          >
+                            <ExternalLink className="w-4 h-4 shrink-0" />
+                            前往 GoDaddy 查價
+                          </a>
+                          <a
+                            href={namecheapUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-orange-500 hover:bg-orange-400 text-white text-sm font-medium transition-colors min-h-[44px] sm:min-h-0"
+                          >
+                            <ExternalLink className="w-4 h-4 shrink-0" />
+                            前往 Namecheap 查價
+                          </a>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </>
             )}
             {!loading && !error && !results?.length && (
               <>
-                <p className="text-zinc-500 text-sm mb-6">搜尋結果範例</p>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto">
-                  <div className="glass rounded-xl p-4 text-left hover:border-white/15 transition-colors">
-                    <div className="font-mono font-semibold text-violet-300 mb-1">
-                      WuCha.com
-                    </div>
-                    <div className="text-zinc-500 text-sm mb-3">無查 / 找茶</div>
-                    <div className="flex items-center justify-between">
-                      <span className="flex items-center gap-1.5 text-emerald-400 text-sm">
-                        <CheckCircle2 className="w-4 h-4" />
-                        可註冊
+                <p className="text-zinc-500 text-sm mb-6">搜尋結果範例 · 前往註冊商比價</p>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 max-w-4xl mx-auto">
+                  <div className="glass rounded-xl p-5 text-left hover:border-white/15 transition-colors border border-white/5">
+                    <div className="flex items-start justify-between gap-3 mb-2">
+                      <span className="font-mono font-semibold text-violet-300 text-lg">WuCha.com</span>
+                      <span className="flex items-center gap-1.5 text-emerald-400 text-sm shrink-0">
+                        <CheckCircle2 className="w-4 h-4" />可註冊
                       </span>
-                      <span className="text-zinc-400 text-sm">$12/年</span>
+                    </div>
+                    <p className="text-zinc-500 text-sm mb-4">無查 / 找茶</p>
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <a href="https://www.godaddy.com/domainsearch/find?checkAvail=1&domainToCheck=WuCha.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px] sm:min-h-0">
+                        <ExternalLink className="w-4 h-4 shrink-0" />前往 GoDaddy 查價
+                      </a>
+                      <a href="https://www.namecheap.com/domains/registration/results/?domain=WuCha.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-orange-500 hover:bg-orange-400 text-white text-sm font-medium transition-colors min-h-[44px] sm:min-h-0">
+                        <ExternalLink className="w-4 h-4 shrink-0" />前往 Namecheap 查價
+                      </a>
                     </div>
                   </div>
-                  <div className="glass rounded-xl p-4 text-left hover:border-white/15 transition-colors">
-                    <div className="font-mono font-semibold text-violet-300 mb-1">
-                      HaoLin.tw
-                    </div>
-                    <div className="text-zinc-500 text-sm mb-3">好拎</div>
-                    <div className="flex items-center justify-between">
-                      <span className="flex items-center gap-1.5 text-red-400 text-sm">
-                        <XCircle className="w-4 h-4" />
-                        已被註冊
+                  <div className="glass rounded-xl p-5 text-left hover:border-white/15 transition-colors border border-white/5">
+                    <div className="flex items-start justify-between gap-3 mb-2">
+                      <span className="font-mono font-semibold text-violet-300 text-lg">TeaMe.io</span>
+                      <span className="flex items-center gap-1.5 text-emerald-400 text-sm shrink-0">
+                        <CheckCircle2 className="w-4 h-4" />可註冊
                       </span>
                     </div>
-                  </div>
-                  <div className="glass rounded-xl p-4 text-left hover:border-white/15 transition-colors">
-                    <div className="font-mono font-semibold text-violet-300 mb-1">
-                      TeaMe.io
-                    </div>
-                    <div className="text-zinc-500 text-sm mb-3">挺你</div>
-                    <div className="flex items-center justify-between">
-                      <span className="flex items-center gap-1.5 text-emerald-400 text-sm">
-                        <CheckCircle2 className="w-4 h-4" />
-                        可註冊
-                      </span>
-                      <span className="text-zinc-400 text-sm">$35/年</span>
+                    <p className="text-zinc-500 text-sm mb-4">挺你</p>
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <a href="https://www.godaddy.com/domainsearch/find?checkAvail=1&domainToCheck=TeaMe.io" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px] sm:min-h-0">
+                        <ExternalLink className="w-4 h-4 shrink-0" />前往 GoDaddy 查價
+                      </a>
+                      <a href="https://www.namecheap.com/domains/registration/results/?domain=TeaMe.io" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-orange-500 hover:bg-orange-400 text-white text-sm font-medium transition-colors min-h-[44px] sm:min-h-0">
+                        <ExternalLink className="w-4 h-4 shrink-0" />前往 Namecheap 查價
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -232,10 +241,10 @@ export default function Home() {
                 <Search className="w-6 h-6 text-violet-400" />
               </div>
               <h3 className="font-semibold text-lg text-zinc-100 mb-2">
-                諧音梗生成
+                台味靈魂，國際規格
               </h3>
               <p className="text-zinc-500 text-sm leading-relaxed">
-                例：TeaMe → 挺你，讓品牌名好記又有梗，一秒打進台灣人的心。
+                雖然用台灣諧音梗（例：SongLa → 鬆啦），但生成的網域一律是<strong className="text-zinc-400">標準英文／羅馬拼音</strong>（如 SongLa.com），全球通用，絕非中文 Punycode。
               </p>
             </div>
             <div className="glass rounded-2xl p-6 hover:border-white/15 transition-all group">
@@ -246,7 +255,7 @@ export default function Home() {
                 算命學命名
               </h3>
               <p className="text-zinc-500 text-sm leading-relaxed">
-                結合五行八字與筆畫吉凶，取一個對事業、財運都有助益的網域。
+                結合五行八字與筆畫吉凶，取一個對事業、財運都有助益的網域；名稱仍為英文或拼音，方便國際使用。
               </p>
             </div>
             <div className="glass rounded-2xl p-6 hover:border-white/15 transition-all group">
@@ -254,10 +263,10 @@ export default function Home() {
                 <Zap className="w-6 h-6 text-amber-400" />
               </div>
               <h3 className="font-semibold text-lg text-zinc-100 mb-2">
-                秒查網域
+                一鍵比價
               </h3>
               <p className="text-zinc-500 text-sm leading-relaxed">
-                即時檢查 .tw / .com / .io 等熱門後綴，可註冊與價格一目了然。
+                即時檢查 .tw / .com / .io 等熱門後綴，一鍵前往 GoDaddy、Namecheap 查價比價，可註冊與價格一目了然。
               </p>
             </div>
           </div>
