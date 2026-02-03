@@ -158,29 +158,31 @@ export default function Home() {
                     return (
                       <div
                         key={i}
-                        className="h-full flex flex-col rounded-xl overflow-hidden border border-white/5 hover:border-white/15 transition-colors min-h-[260px]"
+                        className="h-full flex flex-col rounded-2xl overflow-hidden border border-white/10 hover:border-white/15 transition-colors min-h-[260px]"
                       >
-                        {/* Info Body — 網域、含義、價格 */}
-                        <div className="flex-1 min-h-0 p-5 bg-white/10 text-left">
-                          <span className="font-mono font-semibold text-violet-300 text-lg break-all block mb-1">
+                        {/* 上半部：資訊區 (Info Section) */}
+                        <div className="flex-1 min-h-0 p-6 flex flex-col bg-white/5 text-left">
+                          <span className="font-mono font-semibold text-violet-300 text-xl break-all block mb-1">
                             {item.domain}
                           </span>
                           {item.name && (
                             <p className="text-zinc-400 text-sm mb-0.5">{item.name}</p>
                           )}
                           {item.meaning && (
-                            <p className="text-zinc-500 text-sm mb-2">{item.meaning}</p>
+                            <p className="text-zinc-500 text-sm mb-4">{item.meaning}</p>
                           )}
-                          {item.price && (
-                            <>
-                              <p className="text-zinc-300 text-sm font-medium mb-0.5">{item.price}</p>
-                              <p className="text-zinc-500/70 text-xs mb-3" title="實際價格以註冊商為準">實際價格以註冊商為準</p>
-                            </>
-                          )}
-                          <p className="text-zinc-500/80 text-xs">點擊下方查詢最新狀態</p>
+                          <div className="mt-auto">
+                            {item.price && (
+                              <>
+                                <p className="text-violet-200 font-semibold text-base">{item.price}</p>
+                                <p className="text-zinc-500/70 text-xs mt-0.5" title="實際價格以註冊商為準">實際價格以註冊商為準</p>
+                              </>
+                            )}
+                            <p className="text-zinc-500/80 text-xs mt-2">點擊下方查詢最新狀態</p>
+                          </div>
                         </div>
-                        {/* Action Footer — 按鈕區，視覺切割 */}
-                        <div className="flex-shrink-0 p-4 bg-black/20 flex flex-col space-y-2">
+                        {/* 下半部：行動區 (Action Footer) — 跳出方格外獨立感 */}
+                        <div className="flex-shrink-0 p-4 bg-black/20 border-t border-white/5 flex flex-col gap-3">
                           <a
                             href={godaddyUrl}
                             target="_blank"
@@ -212,17 +214,19 @@ export default function Home() {
               <>
                 <p className="text-zinc-500 text-sm mb-6">搜尋結果範例 · 前往註冊商比價</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto items-stretch">
-                  {/* 範例 1 .com — Header + Footer，雙按鈕垂直堆疊 */}
-                  <div className="h-full flex flex-col rounded-xl overflow-hidden border border-white/5 hover:border-white/15 transition-colors min-h-[260px]">
-                    <div className="flex-1 min-h-0 p-5 bg-white/10 text-left">
-                      <span className="font-mono font-semibold text-violet-300 text-lg block mb-1">WuCha.com</span>
+                  {/* 範例 1 .com — 雙層式：資訊區 + 行動區 */}
+                  <div className="h-full flex flex-col rounded-2xl overflow-hidden border border-white/10 hover:border-white/15 transition-colors min-h-[260px]">
+                    <div className="flex-1 min-h-0 p-6 flex flex-col bg-white/5 text-left">
+                      <span className="font-mono font-semibold text-violet-300 text-xl break-all block mb-1">WuCha.com</span>
                       <p className="text-zinc-400 text-sm mb-0.5">無茶 / 舞茶</p>
-                      <p className="text-zinc-500 text-sm mb-2">無查／找茶，茶飲品牌感</p>
-                      <p className="text-zinc-300 text-sm font-medium mb-0.5">{getPriceByDomain("WuCha.com")}</p>
-                      <p className="text-zinc-500/70 text-xs mb-3" title="實際價格以註冊商為準">實際價格以註冊商為準</p>
-                      <p className="text-zinc-500/80 text-xs">點擊下方查詢最新狀態</p>
+                      <p className="text-zinc-500 text-sm mb-4">無查／找茶，茶飲品牌感</p>
+                      <div className="mt-auto">
+                        <p className="text-violet-200 font-semibold text-base">{getPriceByDomain("WuCha.com")}</p>
+                        <p className="text-zinc-500/70 text-xs mt-0.5" title="實際價格以註冊商為準">實際價格以註冊商為準</p>
+                        <p className="text-zinc-500/80 text-xs mt-2">點擊下方查詢最新狀態</p>
+                      </div>
                     </div>
-                    <div className="flex-shrink-0 p-4 bg-black/20 flex flex-col space-y-2">
+                    <div className="flex-shrink-0 p-4 bg-black/20 border-t border-white/5 flex flex-col gap-3">
                       <a href="https://www.godaddy.com/domainsearch/find?checkAvail=1&domainToCheck=WuCha.com" target="_blank" rel="noopener noreferrer" className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px]">
                         <ExternalLink className="w-4 h-4 shrink-0" />前往 GoDaddy 查價
                       </a>
@@ -231,33 +235,37 @@ export default function Home() {
                       </a>
                     </div>
                   </div>
-                  {/* 範例 2 .tw — 僅 GoDaddy */}
-                  <div className="h-full flex flex-col rounded-xl overflow-hidden border border-white/5 hover:border-white/15 transition-colors min-h-[260px]">
-                    <div className="flex-1 min-h-0 p-5 bg-white/10 text-left">
-                      <span className="font-mono font-semibold text-violet-300 text-lg block mb-1">SongLa.tw</span>
+                  {/* 範例 2 .tw — 僅 GoDaddy，填滿底部 */}
+                  <div className="h-full flex flex-col rounded-2xl overflow-hidden border border-white/10 hover:border-white/15 transition-colors min-h-[260px]">
+                    <div className="flex-1 min-h-0 p-6 flex flex-col bg-white/5 text-left">
+                      <span className="font-mono font-semibold text-violet-300 text-xl break-all block mb-1">SongLa.tw</span>
                       <p className="text-zinc-400 text-sm mb-0.5">爽啦</p>
-                      <p className="text-zinc-500 text-sm mb-2">諧音「爽啦」，傳達暢快感</p>
-                      <p className="text-zinc-300 text-sm font-medium mb-0.5">{getPriceByDomain("SongLa.tw")}</p>
-                      <p className="text-zinc-500/70 text-xs mb-3" title="實際價格以註冊商為準">實際價格以註冊商為準</p>
-                      <p className="text-zinc-500/80 text-xs">點擊下方查詢最新狀態</p>
+                      <p className="text-zinc-500 text-sm mb-4">諧音「爽啦」，傳達暢快感</p>
+                      <div className="mt-auto">
+                        <p className="text-violet-200 font-semibold text-base">{getPriceByDomain("SongLa.tw")}</p>
+                        <p className="text-zinc-500/70 text-xs mt-0.5" title="實際價格以註冊商為準">實際價格以註冊商為準</p>
+                        <p className="text-zinc-500/80 text-xs mt-2">點擊下方查詢最新狀態</p>
+                      </div>
                     </div>
-                    <div className="flex-shrink-0 p-4 bg-black/20 flex flex-col space-y-2">
+                    <div className="flex-shrink-0 p-4 bg-black/20 border-t border-white/5 flex flex-col gap-3">
                       <a href="https://www.godaddy.com/domainsearch/find?checkAvail=1&domainToCheck=SongLa.tw" target="_blank" rel="noopener noreferrer" className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px]">
                         <ExternalLink className="w-4 h-4 shrink-0" />前往 GoDaddy 查價
                       </a>
                     </div>
                   </div>
-                  {/* 範例 3 .io — Header + Footer，雙按鈕垂直堆疊 */}
-                  <div className="h-full flex flex-col rounded-xl overflow-hidden border border-white/5 hover:border-white/15 transition-colors min-h-[260px]">
-                    <div className="flex-1 min-h-0 p-5 bg-white/10 text-left">
-                      <span className="font-mono font-semibold text-violet-300 text-lg block mb-1">TeaMe.io</span>
+                  {/* 範例 3 .io — 雙層式：資訊區 + 行動區 */}
+                  <div className="h-full flex flex-col rounded-2xl overflow-hidden border border-white/10 hover:border-white/15 transition-colors min-h-[260px]">
+                    <div className="flex-1 min-h-0 p-6 flex flex-col bg-white/5 text-left">
+                      <span className="font-mono font-semibold text-violet-300 text-xl break-all block mb-1">TeaMe.io</span>
                       <p className="text-zinc-400 text-sm mb-0.5">挺你</p>
-                      <p className="text-zinc-500 text-sm mb-2">諧音「挺你」，好記又有梗</p>
-                      <p className="text-zinc-300 text-sm font-medium mb-0.5">{getPriceByDomain("TeaMe.io")}</p>
-                      <p className="text-zinc-500/70 text-xs mb-3" title="實際價格以註冊商為準">實際價格以註冊商為準</p>
-                      <p className="text-zinc-500/80 text-xs">點擊下方查詢最新狀態</p>
+                      <p className="text-zinc-500 text-sm mb-4">諧音「挺你」，好記又有梗</p>
+                      <div className="mt-auto">
+                        <p className="text-violet-200 font-semibold text-base">{getPriceByDomain("TeaMe.io")}</p>
+                        <p className="text-zinc-500/70 text-xs mt-0.5" title="實際價格以註冊商為準">實際價格以註冊商為準</p>
+                        <p className="text-zinc-500/80 text-xs mt-2">點擊下方查詢最新狀態</p>
+                      </div>
                     </div>
-                    <div className="flex-shrink-0 p-4 bg-black/20 flex flex-col space-y-2">
+                    <div className="flex-shrink-0 p-4 bg-black/20 border-t border-white/5 flex flex-col gap-3">
                       <a href="https://www.godaddy.com/domainsearch/find?checkAvail=1&domainToCheck=TeaMe.io" target="_blank" rel="noopener noreferrer" className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px]">
                         <ExternalLink className="w-4 h-4 shrink-0" />前往 GoDaddy 查價
                       </a>
