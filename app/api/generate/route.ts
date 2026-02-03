@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 
-/** 依網域後綴回傳新台幣參考價格（行情估算） */
+/** 依網域後綴回傳新台幣參考價格（行情估算）；.com.tw 與 .tw 分開，.tw 較便宜 */
 function getPriceByTld(domain: string): string {
   const d = domain.toLowerCase().trim();
   if (d.endsWith(".ai")) return "NT$ 3,000 起";
   if (d.endsWith(".io")) return "NT$ 1,800 起";
-  if (d.endsWith(".com.tw") || d.endsWith(".tw")) return "NT$ 900 起";
+  if (d.endsWith(".com.tw")) return "NT$ 900 起";
+  if (d.endsWith(".tw")) return "NT$ 300 起";
   if (d.endsWith(".com")) return "NT$ 450 起";
   return "NT$ 600 起";
 }
