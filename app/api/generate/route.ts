@@ -1,5 +1,15 @@
 import { NextResponse } from "next/server";
 
+/** 依網域後綴回傳新台幣參考價格（行情估算） */
+function getPriceByTld(domain: string): string {
+  const d = domain.toLowerCase().trim();
+  if (d.endsWith(".ai")) return "NT$ 3,000 起";
+  if (d.endsWith(".io")) return "NT$ 1,800 起";
+  if (d.endsWith(".com.tw") || d.endsWith(".tw")) return "NT$ 900 起";
+  if (d.endsWith(".com")) return "NT$ 450 起";
+  return "NT$ 600 起";
+}
+
 const SYSTEM_PROMPT = `你是一個專精台灣在地文化的品牌命名大師。請根據用戶輸入的關鍵字，生成 6 個創意網域名稱。要有台灣諧音梗（例如 "TeaMe" 挺你）、台語羅馬拼音、或好記的英文。
 
 【嚴格規定】網域名稱 domain 必須：
@@ -90,6 +100,7 @@ export async function POST(request: Request) {
               domain: safeDomain,
               meaning: String(item?.meaning ?? ""),
               name: String(item?.name ?? ""),
+              price: getPriceByTld(safeDomain),
             };
           })
       : [];

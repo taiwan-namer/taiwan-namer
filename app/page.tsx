@@ -16,7 +16,24 @@ type DomainResult = {
   domain: string;
   meaning: string;
   name: string;
+  price?: string;
 };
+
+/** 依網域後綴回傳新台幣參考價格（與後端一致，供範例卡片使用） */
+function getPriceByDomain(domain: string): string {
+  const d = domain.toLowerCase().trim();
+  if (d.endsWith(".ai")) return "NT$ 3,000 起";
+  if (d.endsWith(".io")) return "NT$ 1,800 起";
+  if (d.endsWith(".com.tw") || d.endsWith(".tw")) return "NT$ 900 起";
+  if (d.endsWith(".com")) return "NT$ 450 起";
+  return "NT$ 600 起";
+}
+
+/** Namecheap 不支援 .tw / .com.tw，僅顯示 GoDaddy */
+function isTwDomain(domain: string): boolean {
+  const d = domain.toLowerCase().trim();
+  return d.endsWith(".tw") || d.endsWith(".com.tw");
+}
 
 export default function Home() {
   const [keyword, setKeyword] = useState("");
@@ -134,6 +151,7 @@ export default function Home() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 max-w-4xl mx-auto">
                   {results.map((item, i) => {
                     const domain = item.domain.replace(/^\s*https?:\/\//i, "").split("/")[0] || item.domain;
+                    const showNamecheap = !isTwDomain(domain);
                     const godaddyUrl = `https://www.godaddy.com/domainsearch/find?checkAvail=1&domainToCheck=${encodeURIComponent(domain)}`;
                     const namecheapUrl = `https://www.namecheap.com/domains/registration/results/?domain=${encodeURIComponent(domain)}`;
                     return (
@@ -148,28 +166,33 @@ export default function Home() {
                           <p className="text-zinc-400 text-sm mb-0.5">{item.name}</p>
                         )}
                         {item.meaning && (
-                          <p className="text-zinc-500 text-sm mb-3">{item.meaning}</p>
+                          <p className="text-zinc-500 text-sm mb-2">{item.meaning}</p>
+                        )}
+                        {item.price && (
+                          <p className="text-zinc-300 text-sm font-medium mb-1">{item.price}</p>
                         )}
                         <p className="text-zinc-500/80 text-xs mb-4">點擊下方查詢最新狀態</p>
-                        <div className="flex flex-col sm:flex-row gap-2">
+                        <div className={`flex flex-col sm:flex-row gap-2 ${showNamecheap ? "" : "sm:justify-center"}`}>
                           <a
                             href={godaddyUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px] sm:min-h-0"
+                            className={`inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px] sm:min-h-0 ${showNamecheap ? "" : "sm:min-w-[200px]"}`}
                           >
                             <ExternalLink className="w-4 h-4 shrink-0" />
                             前往 GoDaddy 查價
                           </a>
-                          <a
-                            href={namecheapUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-orange-500 hover:bg-orange-400 text-white text-sm font-medium transition-colors min-h-[44px] sm:min-h-0"
-                          >
-                            <ExternalLink className="w-4 h-4 shrink-0" />
-                            前往 Namecheap 查價
-                          </a>
+                          {showNamecheap && (
+                            <a
+                              href={namecheapUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-orange-500 hover:bg-orange-400 text-white text-sm font-medium transition-colors min-h-[44px] sm:min-h-0"
+                            >
+                              <ExternalLink className="w-4 h-4 shrink-0" />
+                              前往 Namecheap 查價
+                            </a>
+                          )}
                         </div>
                       </div>
                     );
@@ -184,7 +207,8 @@ export default function Home() {
                   <div className="glass rounded-xl p-5 text-left hover:border-white/15 transition-colors border border-white/5">
                     <span className="font-mono font-semibold text-violet-300 text-lg block mb-1">WuCha.com</span>
                     <p className="text-zinc-400 text-sm mb-0.5">無查</p>
-                    <p className="text-zinc-500 text-sm mb-3">無查 / 找茶，茶飲品牌感</p>
+                    <p className="text-zinc-500 text-sm mb-2">無查 / 找茶，茶飲品牌感</p>
+                    <p className="text-zinc-300 text-sm font-medium mb-1">{getPriceByDomain("WuCha.com")}</p>
                     <p className="text-zinc-500/80 text-xs mb-4">點擊下方查詢最新狀態</p>
                     <div className="flex flex-col sm:flex-row gap-2">
                       <a href="https://www.godaddy.com/domainsearch/find?checkAvail=1&domainToCheck=WuCha.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px] sm:min-h-0">
@@ -198,7 +222,8 @@ export default function Home() {
                   <div className="glass rounded-xl p-5 text-left hover:border-white/15 transition-colors border border-white/5">
                     <span className="font-mono font-semibold text-violet-300 text-lg block mb-1">TeaMe.io</span>
                     <p className="text-zinc-400 text-sm mb-0.5">挺你</p>
-                    <p className="text-zinc-500 text-sm mb-3">諧音「挺你」，好記又有梗</p>
+                    <p className="text-zinc-500 text-sm mb-2">諧音「挺你」，好記又有梗</p>
+                    <p className="text-zinc-300 text-sm font-medium mb-1">{getPriceByDomain("TeaMe.io")}</p>
                     <p className="text-zinc-500/80 text-xs mb-4">點擊下方查詢最新狀態</p>
                     <div className="flex flex-col sm:flex-row gap-2">
                       <a href="https://www.godaddy.com/domainsearch/find?checkAvail=1&domainToCheck=TeaMe.io" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px] sm:min-h-0">
