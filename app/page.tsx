@@ -178,12 +178,12 @@ export default function Home() {
                           )}
                           <p className="text-zinc-500/80 text-xs">點擊下方查詢最新狀態</p>
                         </div>
-                        <div className={`mt-auto pt-6 flex flex-col sm:flex-row gap-2 ${showNamecheap ? "" : "sm:justify-center"}`}>
+                        <div className="mt-auto mt-4 pt-4 border-t border-white/10 bg-white/[0.03] -mx-5 px-5 pb-5 flex flex-col gap-3">
                           <a
                             href={godaddyUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className={`inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px] ${showNamecheap ? "flex-1" : "w-full"}`}
+                            className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px]"
                           >
                             <ExternalLink className="w-4 h-4 shrink-0" />
                             前往 GoDaddy 查價
@@ -193,7 +193,7 @@ export default function Home() {
                               href={namecheapUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-orange-500 hover:bg-orange-400 text-white text-sm font-medium transition-colors min-h-[44px] flex-1"
+                              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-orange-500 hover:bg-orange-400 text-white text-sm font-medium transition-colors min-h-[44px]"
                             >
                               <ExternalLink className="w-4 h-4 shrink-0" />
                               前往 Namecheap 查價
@@ -210,7 +210,7 @@ export default function Home() {
               <>
                 <p className="text-zinc-500 text-sm mb-6">搜尋結果範例 · 前往註冊商比價</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
-                  {/* 範例 1 .com — 雙按鈕 */}
+                  {/* 範例 1 .com — 雙按鈕，垂直堆疊 */}
                   <div className="glass rounded-xl p-5 text-left hover:border-white/15 transition-colors border border-white/5 flex flex-col justify-between min-h-[280px]">
                     <div>
                       <span className="font-mono font-semibold text-violet-300 text-lg block mb-1">WuCha.com</span>
@@ -220,16 +220,16 @@ export default function Home() {
                       <p className="text-zinc-500/70 text-xs mb-3" title="實際價格以註冊商為準">實際價格以註冊商為準</p>
                       <p className="text-zinc-500/80 text-xs">點擊下方查詢最新狀態</p>
                     </div>
-                    <div className="mt-auto pt-6 flex flex-col sm:flex-row gap-2">
-                      <a href="https://www.godaddy.com/domainsearch/find?checkAvail=1&domainToCheck=WuCha.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px] flex-1">
+                    <div className="mt-auto mt-4 pt-4 border-t border-white/10 bg-white/[0.03] -mx-5 px-5 pb-5 flex flex-col gap-3">
+                      <a href="https://www.godaddy.com/domainsearch/find?checkAvail=1&domainToCheck=WuCha.com" target="_blank" rel="noopener noreferrer" className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px]">
                         <ExternalLink className="w-4 h-4 shrink-0" />前往 GoDaddy 查價
                       </a>
-                      <a href="https://www.namecheap.com/domains/registration/results/?domain=WuCha.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-orange-500 hover:bg-orange-400 text-white text-sm font-medium transition-colors min-h-[44px] flex-1">
+                      <a href="https://www.namecheap.com/domains/registration/results/?domain=WuCha.com" target="_blank" rel="noopener noreferrer" className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-orange-500 hover:bg-orange-400 text-white text-sm font-medium transition-colors min-h-[44px]">
                         <ExternalLink className="w-4 h-4 shrink-0" />前往 Namecheap 查價
                       </a>
                     </div>
                   </div>
-                  {/* 範例 2 .tw — 僅 GoDaddy，全寬按鈕 */}
+                  {/* 範例 2 .tw — 僅 GoDaddy，長條按鈕 */}
                   <div className="glass rounded-xl p-5 text-left hover:border-white/15 transition-colors border border-white/5 flex flex-col justify-between min-h-[280px]">
                     <div>
                       <span className="font-mono font-semibold text-violet-300 text-lg block mb-1">SongLa.tw</span>
@@ -239,13 +239,13 @@ export default function Home() {
                       <p className="text-zinc-500/70 text-xs mb-3" title="實際價格以註冊商為準">實際價格以註冊商為準</p>
                       <p className="text-zinc-500/80 text-xs">點擊下方查詢最新狀態</p>
                     </div>
-                    <div className="mt-auto pt-6 flex justify-center">
+                    <div className="mt-auto mt-4 pt-4 border-t border-white/10 bg-white/[0.03] -mx-5 px-5 pb-5 flex flex-col gap-3">
                       <a href="https://www.godaddy.com/domainsearch/find?checkAvail=1&domainToCheck=SongLa.tw" target="_blank" rel="noopener noreferrer" className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px]">
                         <ExternalLink className="w-4 h-4 shrink-0" />前往 GoDaddy 查價
                       </a>
                     </div>
                   </div>
-                  {/* 範例 3 .io — 雙按鈕 */}
+                  {/* 範例 3 .io — 雙按鈕，垂直堆疊 */}
                   <div className="glass rounded-xl p-5 text-left hover:border-white/15 transition-colors border border-white/5 flex flex-col justify-between min-h-[280px]">
                     <div>
                       <span className="font-mono font-semibold text-violet-300 text-lg block mb-1">TeaMe.io</span>
@@ -255,11 +255,11 @@ export default function Home() {
                       <p className="text-zinc-500/70 text-xs mb-3" title="實際價格以註冊商為準">實際價格以註冊商為準</p>
                       <p className="text-zinc-500/80 text-xs">點擊下方查詢最新狀態</p>
                     </div>
-                    <div className="mt-auto pt-6 flex flex-col sm:flex-row gap-2">
-                      <a href="https://www.godaddy.com/domainsearch/find?checkAvail=1&domainToCheck=TeaMe.io" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px] flex-1">
+                    <div className="mt-auto mt-4 pt-4 border-t border-white/10 bg-white/[0.03] -mx-5 px-5 pb-5 flex flex-col gap-3">
+                      <a href="https://www.godaddy.com/domainsearch/find?checkAvail=1&domainToCheck=TeaMe.io" target="_blank" rel="noopener noreferrer" className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px]">
                         <ExternalLink className="w-4 h-4 shrink-0" />前往 GoDaddy 查價
                       </a>
-                      <a href="https://www.namecheap.com/domains/registration/results/?domain=TeaMe.io" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-orange-500 hover:bg-orange-400 text-white text-sm font-medium transition-colors min-h-[44px] flex-1">
+                      <a href="https://www.namecheap.com/domains/registration/results/?domain=TeaMe.io" target="_blank" rel="noopener noreferrer" className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-orange-500 hover:bg-orange-400 text-white text-sm font-medium transition-colors min-h-[44px]">
                         <ExternalLink className="w-4 h-4 shrink-0" />前往 Namecheap 查價
                       </a>
                     </div>
