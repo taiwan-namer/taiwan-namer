@@ -11,9 +11,6 @@ const notoSansTC = Noto_Sans_TC({
 export const metadata: Metadata = {
   title: "台味命名大師 | AI 幫你的品牌算個好命 (網域生成器)",
   description: "全台唯一！專懂台灣諧音梗、在地文化、算命筆畫的 AI 網域生成器。輸入關鍵字，自動生成好記的英文網域，並即時查詢 GoDaddy 與 Namecheap 價格。",
-  other: {
-    "impact-site-verification": "7f43056d-bae8-400e-a6fc-4737172460c9",
-  },
   keywords: [
     "公司命名", 
     "網域產生器", 
