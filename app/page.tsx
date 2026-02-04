@@ -118,17 +118,32 @@ export default function Home() {
       </div>
 
       {/* Navbar */}
+      {/* Navbar - 更新版 (加入部落格連結) */}
       <nav className="relative z-10 border-b border-white/5">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+          {/* 左邊 Logo */}
           <a href="/" className="flex items-center gap-2.5 text-zinc-100 hover:text-white transition-colors">
             <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-violet-500 to-pink-500 flex items-center justify-center shadow-lg shadow-violet-500/25">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
-            <span className="font-semibold text-lg tracking-tight">
-              台味命名大師
-            </span>
-            <span className="text-zinc-500 text-sm font-normal">Taiwan Namer</span>
+            <div className="flex flex-col">
+              <span className="font-semibold text-lg tracking-tight leading-none">
+                台味命名大師
+              </span>
+              <span className="text-zinc-500 text-xs font-normal tracking-wide">Taiwan Namer</span>
+            </div>
           </a>
+
+          {/* 右邊選單 */}
+          <div className="flex items-center gap-6">
+            <a 
+              href="/blog" 
+              className="text-sm font-medium text-zinc-400 hover:text-violet-300 transition-colors flex items-center gap-1.5"
+            >
+              <Globe className="w-4 h-4" />
+              部落格教學
+            </a>
+          </div>
         </div>
       </nav>
 
