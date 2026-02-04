@@ -12,11 +12,13 @@ export default function BlogListPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] relative overflow-hidden">
+      {/* 背景特效 */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-violet-500/15 rounded-full blur-[120px]" />
         <div className="absolute top-1/3 right-0 w-[400px] h-[300px] bg-blue-500/10 rounded-full blur-[100px]" />
       </div>
 
+      {/* 頂部導航 */}
       <header className="relative z-10 border-b border-white/5">
         <div className="max-w-4xl mx-auto px-6 py-6">
           <Link
@@ -36,6 +38,7 @@ export default function BlogListPage() {
         </div>
       </header>
 
+      {/* 文章列表區 */}
       <main className="relative z-10 max-w-4xl mx-auto px-6 py-12">
         {posts.length === 0 ? (
           <div className="glass rounded-xl p-12 text-center border border-white/5">
@@ -47,7 +50,7 @@ export default function BlogListPage() {
             {posts.map((post) => (
               <li key={post.slug}>
                 <Link
-                  href={`/blog/${post.slug}`}
+                  href={post.slug === 'bluehost-tutorial' ? '/blog/bluehost-tutorial' : `/blog/${post.slug}`}
                   className="glass rounded-xl p-5 block border border-white/5 hover:border-white/15 transition-colors group"
                 >
                   <h2 className="font-semibold text-lg text-zinc-100 group-hover:text-violet-300 transition-colors">
