@@ -11,6 +11,7 @@ import {
   AlertCircle,
   ExternalLink,
 } from "lucide-react";
+import { PricingTable, CTAButton } from "@/components/BlogParts";
 
 // 🟢 賺錢設定區 (等到 CJ 審核通過後，把 ID 填在這邊)
 // 目前留空 ("") 代表「審核模式」，會直接連去官網，方便審核員檢查
@@ -341,6 +342,30 @@ export default function Home() {
                 </div>
               </>
             )}
+          </div>
+        </section>
+
+        {/* Bluehost 推廣專區（名字取好了？下一步） */}
+        <section className="py-24 px-6 border-t border-white/5">
+          <div className="max-w-4xl mx-auto">
+
+            {/* 標題引導 */}
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-white mb-4">
+                名字取好了？下一步就是架設網站！
+              </h2>
+              <p className="text-zinc-400">
+                使用 Bluehost，不但穩定，現在透過下方連結申請還送您
+                <span className="text-blue-400 font-bold mx-1">免費網域一年</span>。
+              </p>
+            </div>
+
+            {/* 呼叫價格表積木 */}
+            <PricingTable />
+
+            {/* 呼叫按鈕積木 */}
+            <CTAButton />
+
           </div>
         </section>
 

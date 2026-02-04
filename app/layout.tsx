@@ -26,7 +26,6 @@ export const metadata: Metadata = {
     "Namecheap推薦",
     "品牌算命"
   ],
-  authors: [{ name: "羅老闆" }],
   openGraph: {
     title: "台味命名大師 - 用 AI 幫你的品牌算個好命",
     description: "不想燒腦想名字？讓 AI 幫你算筆畫、玩諧音，還能直接查網域有沒有人用！",

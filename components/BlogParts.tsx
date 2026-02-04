@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Check, X, ExternalLink, ArrowRight } from "lucide-react";
 
 // 1. 文章標頭 (Title & Meta)
-export function ArticleHeader({ title, date, author = "羅老闆" }: { title: string; date: string; author?: string }) {
+export function ArticleHeader({ title, date, author }: { title: string; date: string; author?: string }) {
   return (
     <header className="mb-12 text-center relative z-10">
       <div className="inline-block px-3 py-1 mb-4 text-xs font-medium tracking-wider text-blue-400 uppercase bg-blue-500/10 rounded-full border border-blue-500/20">
@@ -12,18 +12,17 @@ export function ArticleHeader({ title, date, author = "羅老闆" }: { title: st
         {title}
       </h1>
       <div className="flex items-center justify-center space-x-4 text-sm text-zinc-500">
-        <span className="flex items-center"><div className="w-6 h-6 rounded-full bg-violet-500 flex items-center justify-center text-xs text-white font-bold mr-2">{author[0]}</div> {author}</span>
-        <span>•</span>
+        {author ? <><span className="flex items-center"><div className="w-6 h-6 rounded-full bg-violet-500 flex items-center justify-center text-xs text-white font-bold mr-2">{author[0]}</div> {author}</span><span>•</span></> : null}
         <span>{date}</span>
       </div>
     </header>
   );
 }
 
-// 2. 章節標題 (Section Title)
-export function SectionTitle({ children }: { children: React.ReactNode }) {
+// 2. 章節標題 (Section Title)，可選 id 供目錄錨點使用
+export function SectionTitle({ children, id }: { children: React.ReactNode; id?: string }) {
   return (
-    <h2 className="text-2xl md:text-3xl font-bold mt-16 mb-8 text-white flex items-center border-l-4 border-blue-500 pl-4">
+    <h2 id={id} className="text-2xl md:text-3xl font-bold mt-16 mb-8 text-white flex items-center border-l-4 border-blue-500 pl-4 scroll-mt-28">
       {children}
     </h2>
   );
@@ -77,7 +76,7 @@ export function PricingTable() {
         
         {/* Choice Plus (Hero) */}
         <div className="p-8 text-center bg-blue-900/10 relative">
-          <div className="absolute top-0 left-0 w-full bg-blue-600 text-white text-[10px] py-1 font-bold tracking-wider">羅老闆推薦</div>
+          <div className="absolute top-0 left-0 w-full bg-blue-600 text-white text-[10px] py-1 font-bold tracking-wider">推薦</div>
           <div className="text-blue-400 font-bold mb-2 mt-4">Choice Plus</div>
           <div className="text-4xl font-bold text-white mb-1">$5.45</div>
           <div className="text-xs text-blue-200/50 mb-6">/月 (CP值最高)</div>
