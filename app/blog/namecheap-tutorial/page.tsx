@@ -39,7 +39,7 @@ export default function NamecheapTutorialPage() {
             />
 
             <div className="bg-blue-900/20 border border-blue-500/30 p-4 rounded-lg my-6 text-sm text-blue-200">
-              <p><strong>🔔 讀者權益聲明：</strong> 本文包含聯盟行銷連結。若您透過連結至 Namecheap 註冊網域，本站將可能獲得分潤獎金，用以維持本站免費運作，且<strong>不會</strong>增加您的購買成本。</p>
+              <p><strong>🔔 讀者權益聲明：</strong> 本文包含聯盟行銷連結。若您透過連結購買，本站將獲得分潤，這不會增加您的成本，且有助於本站持續提供免費工具。</p>
             </div>
 
             {/* ========== 前言 ========== */}

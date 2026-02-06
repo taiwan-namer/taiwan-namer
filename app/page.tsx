@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import {
   Sparkles,
   Search,
@@ -10,6 +11,7 @@ import {
   Loader2,
   AlertCircle,
   ExternalLink,
+  FileText,
 } from "lucide-react";
 import { PricingTable, CTAButton } from "@/components/BlogParts";
 
@@ -137,13 +139,13 @@ export default function Home() {
 
           {/* 右邊選單 */}
           <div className="flex items-center gap-6">
-            <a 
-              href="/blog" 
+            <Link
+              href="/blog"
               className="text-sm font-medium text-zinc-400 hover:text-violet-300 transition-colors flex items-center gap-1.5"
             >
-              <Globe className="w-4 h-4" />
-              部落格教學
-            </a>
+              <FileText className="w-4 h-4" />
+              教學文章
+            </Link>
           </div>
         </div>
       </nav>
@@ -408,6 +410,66 @@ export default function Home() {
                 即時檢查 .tw / .com / .io 等熱門後綴，一鍵前往 GoDaddy、Namecheap 查價比價，可註冊與價格一目了然。
               </p>
             </div>
+          </div>
+        </section>
+
+        {/* 最新站長教學 (Latest Guides) */}
+        <section className="pt-16 pb-20 border-t border-white/5">
+          <h2 className="text-2xl font-semibold text-center text-zinc-200 mb-10">
+            最新站長教學 (Latest Guides)
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <Link
+              href="/blog/bluehost-tutorial"
+              className="glass rounded-2xl p-6 border border-white/5 hover:border-blue-500/30 transition-all group block text-left"
+            >
+              <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center mb-4 group-hover:bg-blue-500/30 transition-colors">
+                <FileText className="w-6 h-6 text-blue-400" />
+              </div>
+              <h3 className="font-semibold text-lg text-zinc-100 mb-2 group-hover:text-blue-300 transition-colors">
+                Bluehost 架站教學
+              </h3>
+              <p className="text-zinc-500 text-sm leading-relaxed">
+                新手 10 分鐘架設 WordPress，含主機方案選擇、網域申請與一鍵安裝。
+              </p>
+              <span className="inline-flex items-center gap-1 text-blue-400 text-sm font-medium mt-3">
+                閱讀全文 <ExternalLink className="w-4 h-4" />
+              </span>
+            </Link>
+            <Link
+              href="/blog/godaddy-tutorial"
+              className="glass rounded-2xl p-6 border border-white/5 hover:border-emerald-500/30 transition-all group block text-left"
+            >
+              <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center mb-4 group-hover:bg-emerald-500/30 transition-colors">
+                <FileText className="w-6 h-6 text-emerald-400" />
+              </div>
+              <h3 className="font-semibold text-lg text-zinc-100 mb-2 group-hover:text-emerald-300 transition-colors">
+                GoDaddy 網域註冊
+              </h3>
+              <p className="text-zinc-500 text-sm leading-relaxed">
+                5 分鐘買到第一個網域，結帳避坑、DNS 設定與續費安全一次搞定。
+              </p>
+              <span className="inline-flex items-center gap-1 text-emerald-400 text-sm font-medium mt-3">
+                閱讀全文 <ExternalLink className="w-4 h-4" />
+              </span>
+            </Link>
+            <Link
+              href="/blog/namecheap-tutorial"
+              className="glass rounded-2xl p-6 border border-white/5 hover:border-orange-500/30 transition-all group block text-left"
+            >
+              <div className="w-12 h-12 rounded-xl bg-orange-500/20 flex items-center justify-center mb-4 group-hover:bg-orange-500/30 transition-colors">
+                <FileText className="w-6 h-6 text-orange-400" />
+              </div>
+              <h3 className="font-semibold text-lg text-zinc-100 mb-2 group-hover:text-orange-300 transition-colors">
+                Namecheap 避坑指南
+              </h3>
+              <p className="text-zinc-500 text-sm leading-relaxed">
+                永久免費隱私保護、無陷阱結帳，老司機推薦的專業網域註冊商。
+              </p>
+              <span className="inline-flex items-center gap-1 text-orange-400 text-sm font-medium mt-3">
+                閱讀全文 <ExternalLink className="w-4 h-4" />
+              </span>
+            </Link>
           </div>
         </section>
 
