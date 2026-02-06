@@ -1,0 +1,44 @@
+這是專為記事本排版優化的 Namecheap 第四步：DNS 設定教學 文稿。
+
+為了讓新手在純文字環境下也能看懂，我將步驟簡化為「指向主機」的具體動作，並保留了對齊格式。
+
+【四、 DNS 設定教學：快速連結你的網站】
+買好網域後，最後一個技術大關就是將它「指向」你的主機，網站才能正式被看見。
+
+■ 1. 登入後台並尋找網域
+
+登入 Namecheap，點擊左側選單的 【Domain List】（網域清單）。
+
+在你剛買好的網域右側，點擊綠色的 【MANAGE】（管理）按鈕。
+
+■ 2. 修改名稱伺服器 (Nameservers) 如果你是使用外部主機（例如 SiteGround, Bluehost, Cloudways）：
+
+在畫面上方找到 【NAMESERVERS】 區塊。
+
+將下拉選單從「Namecheap BasicDNS」改為 【Custom DNS】。
+
+在下方的欄位中，填入主機商提供給你的兩組網址：
+
+第一組：https://www.google.com/search?q=ns1.yourhost.com
+
+第二組：https://www.google.com/search?q=ns2.yourhost.com
+
+【重要】 點擊右邊綠色的「勾勾圖示」儲存設定。
+
+■ 3. 使用 A 紀錄指向（適合特定架站平台） 如果你不更換 Nameservers，只需設定 A 紀錄：
+
+點擊上方的橫式標籤 【Advanced DNS】。
+
+在「Host Records」區塊，點擊「ADD NEW RECORD」。
+
+選擇「A Record」，Host 填入「@」，Value 填入主機的「IP 位址」。
+
+再次點擊綠色勾勾儲存。
+
+■ 4. 靜候生效（DNS Propagation）
+
+不要急： 設定完成後，全球網路需要時間更新。
+
+時間： 通常 30 分鐘內生效，最長可能需要 24-48 小時。
+
+檢查工具： 建議搜尋「DNS Checker」，輸入網址，如果看到全球地圖都亮綠燈，就代表成功了！
