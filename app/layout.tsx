@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Sans_TC } from "next/font/google";
 import "./globals.css";
+import { SiteFooter } from "@/components/SiteFooter";
 
 const notoSansTC = Noto_Sans_TC({
   subsets: ["latin"],
@@ -44,9 +45,10 @@ export default function RootLayout({
   return (
     <html lang="zh-TW" className="dark">
       <body
-        className={`${notoSansTC.variable} font-sans antialiased bg-[#0a0a0a] text-zinc-100`}
+        className={`${notoSansTC.variable} font-sans antialiased bg-[#0a0a0a] text-zinc-100 flex flex-col min-h-screen`}
       >
-        {children}
+        <div className="flex-1 flex flex-col">{children}</div>
+        <SiteFooter />
       </body>
     </html>
   );

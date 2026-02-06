@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArticleHeader, SectionTitle, ProsCons, PricingTable, CTAButton, StepBlock } from "@/components/BlogParts";
 import { ArrowLeft } from "lucide-react";
 
-const AFFILIATE_LINK = "https://www.bluehost.com/track/taiwannamer/";
+const AFFILIATE_LINK = "https://bluehost.sjv.io/c/6954000/1376228/11352";
 
 function Affiliate({ children }: { children: React.ReactNode }) {
   return (
