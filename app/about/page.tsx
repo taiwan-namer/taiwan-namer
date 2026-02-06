@@ -25,13 +25,13 @@ export default function AboutPage() {
 
         <div className="space-y-6 text-zinc-300 leading-relaxed">
           <p>
-            台味命名大師（Taiwan Namer）是一個為台灣創業者與創作者打造的免費工具與內容平台。我們相信，好的品牌名稱與網域是事業的起點，但許多人在「取名」與「架站」這兩個關卡上卡關已久。
+            我是 <strong className="text-zinc-200">CHING YEN LO</strong>，一名台灣的網頁開發者。在做專案與接案的過程中，我發現很多創業者卡在「取名字」和「架網站」的第一步——不是想不到好名字，就是不知道從哪裡開始架站。
           </p>
           <p>
-            我們致力於提供<strong className="text-zinc-200">免費的 AI 命名工具</strong>與<strong className="text-zinc-200">架站教學</strong>，結合台灣在地文化、諧音梗與實用的網域查詢功能，幫助你從發想名稱到查價、比價一氣呵成。同時，我們也提供從主機選擇到 WordPress 設定的圖文教學，降低從零到上線的門檻。
+            所以有了 Taiwan Namer。這不是一個冷冰冰的 AI 工具，而是我希望能幫助台灣品牌走向國際的起點：用諧音梗、在地文化與筆畫邏輯幫你發想網域，再一鍵連到 GoDaddy、Namecheap 查價，以及用 Bluehost 教學帶你從零架好 WordPress。
           </p>
           <p>
-            無論你是個人創作者、小型工作室，或是正在規劃品牌的新創團隊，都歡迎使用我們的工具與文章，讓「命名」與「架站」不再成為阻礙你起步的高牆。
+            <strong className="text-zinc-200">Real person, real developer.</strong> 如果你在用這個網站，背後是一個真的在寫 code、在維護內容的人。歡迎用到你的專案或品牌上，有想法也歡迎從聯絡頁跟我說。
           </p>
         </div>
       </main>

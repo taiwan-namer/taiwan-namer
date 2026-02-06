@@ -72,8 +72,11 @@ export function SiteFooter() {
           </div>
         </div>
 
-        {/* 底部 Copyright */}
-        <div className="mt-12 pt-8 border-t border-white/5 text-center">
+        {/* 底部 Affiliate Disclosure（FTC Clear and Conspicuous）＋ Copyright */}
+        <div className="mt-12 pt-8 border-t border-white/5 text-center space-y-3">
+          <p className="text-zinc-300 text-sm max-w-2xl mx-auto">
+            Affiliate Disclosure: This site contains affiliate links (e.g. GoDaddy, Namecheap, Bluehost). We may earn a commission when you make a purchase at no extra cost to you. This helps us keep the site free. See our <Link href="/privacy" className="text-zinc-200 underline hover:text-white">Privacy Policy</Link> for details.
+          </p>
           <p className="text-zinc-600 text-sm">
             Copyright © 2026 Taiwan Namer. All rights reserved.
           </p>

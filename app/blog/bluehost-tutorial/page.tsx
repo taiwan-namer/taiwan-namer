@@ -37,6 +37,10 @@ export default function BluehostPage() {
               date="2026/02/04"
             />
 
+            <div className="bg-blue-900/20 border border-blue-500/30 p-4 rounded-lg my-6 text-sm text-blue-200">
+              <p><strong>🔔 讀者權益聲明：</strong> 本文包含聯盟行銷連結。若您透過連結購買 Bluehost 主機，本站將獲得分潤獎金，這也是維持本站免費運作的動力，且<strong>不會</strong>增加您的購買成本。</p>
+            </div>
+
             <div className="mb-12 text-zinc-300 leading-relaxed">
               <p className="text-zinc-300 mb-6 leading-relaxed">
                 如果你想開始經營部落格、公司形象網站，或是個人作品集，<strong className="text-blue-400"><Affiliate>Bluehost</Affiliate> 絕對是目前對新手最友善的選擇。</strong>

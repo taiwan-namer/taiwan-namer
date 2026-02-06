@@ -33,12 +33,15 @@ export default function ContactPage() {
               如有合作需求、媒體採訪或一般詢問，請寄信至：
             </p>
             <a
-              href="mailto:contact@taiwannamer.com"
+              href="mailto:t26647250@gmail.com"
               className="text-blue-400 hover:text-blue-300 font-medium break-all"
             >
-              contact@taiwannamer.com
+              t26647250@gmail.com
             </a>
-            <p className="text-zinc-500 text-sm mt-4">
+            <p className="text-zinc-300 text-sm mt-4 font-medium">
+              We typically reply to all inquiries within 24 hours.
+            </p>
+            <p className="text-zinc-500 text-sm mt-1">
               我們會盡可能在合理時間內回覆每一封來信。
             </p>
           </div>
