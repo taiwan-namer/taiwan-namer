@@ -3,16 +3,13 @@ import { ArticleHeader, SectionTitle, StepBlock } from "@/components/BlogParts";
 import { ArrowLeft } from "lucide-react";
 
 // 與首頁一致：無 CJ 時連官網，之後可改為聯盟連結
-// 聯盟網址 + 帶目的地的查詢連結（與首頁 GoDaddy 邏輯一致）
-const NAMECHEAP_AFFILIATE_BASE = "https://www.tkqlhce.com/click-101646408-15083037";
-const NAMECHEAP_SEARCH_URL = "https://www.namecheap.com/domains/registration/results/";
-const NAMECHEAP_LINK = `${NAMECHEAP_AFFILIATE_BASE}?url=${encodeURIComponent(NAMECHEAP_SEARCH_URL)}`;
+const GO_NAMECHEAP = "/go/namecheap";
 
 function NamecheapAffiliate({ children }: { children: React.ReactNode }) {
   return (
-    <a href={NAMECHEAP_LINK} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+    <Link href={GO_NAMECHEAP} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
       {children}
-    </a>
+    </Link>
   );
 }
 
@@ -322,7 +319,7 @@ export default function NamecheapTutorialPage() {
                 前往 Namecheap 搜尋網域、享有永久免費隱私保護，或使用本站首頁的 AI 命名工具先發想好名字再查。
               </p>
               <a
-                href={NAMECHEAP_LINK}
+                href={GO_NAMECHEAP}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center bg-orange-500 hover:bg-orange-400 text-white px-8 py-4 rounded-full text-lg font-bold transition-all transform hover:scale-105 shadow-lg shadow-orange-900/50"
@@ -381,7 +378,7 @@ export default function NamecheapTutorialPage() {
                 <p className="text-xs text-orange-300 mb-2 uppercase tracking-wider">Domain Search</p>
                 <div className="text-xl font-bold text-white mb-1">Namecheap 查價</div>
                 <div className="text-xs text-zinc-400 mb-4">永久免費隱私保護 · 與首頁 AI 命名搭配</div>
-                <a href={NAMECHEAP_LINK} target="_blank" rel="noopener noreferrer" className="block w-full bg-orange-500 hover:bg-orange-400 text-white text-xs font-bold py-3 rounded-lg transition shadow-lg shadow-orange-900/30">
+                <a href={GO_NAMECHEAP} target="_blank" rel="noopener noreferrer" className="block w-full bg-orange-500 hover:bg-orange-400 text-white text-xs font-bold py-3 rounded-lg transition shadow-lg shadow-orange-900/30">
                   前往 Namecheap
                 </a>
               </div>

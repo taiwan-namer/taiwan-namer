@@ -3,13 +3,13 @@ import { ArticleHeader, SectionTitle, StepBlock } from "@/components/BlogParts";
 import { ArrowLeft } from "lucide-react";
 
 // 與首頁一致：無 CJ 時連官網，之後可改為聯盟連結
-const GODADDY_LINK = "https://www.godaddy.com/domainsearch/find";
+const GO_GODADDY = "/go/godaddy";
 
 function GoDaddyAffiliate({ children }: { children: React.ReactNode }) {
   return (
-    <a href={GODADDY_LINK} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+    <Link href={GO_GODADDY} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
       {children}
-    </a>
+    </Link>
   );
 }
 
@@ -316,7 +316,7 @@ export default function GoDaddyTutorialPage() {
                 前往 GoDaddy 搜尋網域、比價，或使用本站首頁的 AI 命名工具先發想好名字再查。
               </p>
               <a
-                href={GODADDY_LINK}
+                href={GO_GODADDY}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-4 rounded-full text-lg font-bold transition-all transform hover:scale-105 shadow-lg shadow-emerald-900/50"
@@ -375,7 +375,7 @@ export default function GoDaddyTutorialPage() {
                 <p className="text-xs text-emerald-300 mb-2 uppercase tracking-wider">Domain Search</p>
                 <div className="text-xl font-bold text-white mb-1">GoDaddy 查價</div>
                 <div className="text-xs text-zinc-400 mb-4">與首頁 AI 命名工具搭配使用</div>
-                <a href={GODADDY_LINK} target="_blank" rel="noopener noreferrer" className="block w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold py-3 rounded-lg transition shadow-lg shadow-emerald-900/30">
+                <a href={GO_GODADDY} target="_blank" rel="noopener noreferrer" className="block w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold py-3 rounded-lg transition shadow-lg shadow-emerald-900/30">
                   前往 GoDaddy
                 </a>
               </div>

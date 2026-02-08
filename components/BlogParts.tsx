@@ -112,14 +112,14 @@ export function CTAButton() {
       <p className="text-zinc-400 mb-8 max-w-lg mx-auto">
         現在透過下方連結申請，享有獨家 3 折優惠 (70% OFF)，並且包含免費網域一年。
       </p>
-      <a 
-        href="https://bluehost.sjv.io/c/6954000/1376228/11352" 
+      <Link 
+        href="/go/bluehost" 
         target="_blank" 
         rel="noopener noreferrer"
         className="inline-flex items-center bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-full text-lg font-bold transition-all transform hover:scale-105 shadow-lg shadow-blue-900/50 group-hover:shadow-blue-600/20"
       >
         領取 Bluehost 優惠 <ArrowRight className="ml-2 w-5 h-5" />
-      </a>
+      </Link>
     </div>
   );
 }

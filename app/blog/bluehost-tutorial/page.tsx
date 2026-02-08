@@ -2,13 +2,13 @@ import Link from "next/link";
 import { ArticleHeader, SectionTitle, ProsCons, PricingTable, CTAButton, StepBlock } from "@/components/BlogParts";
 import { ArrowLeft } from "lucide-react";
 
-const AFFILIATE_LINK = "https://bluehost.sjv.io/c/6954000/1376228/11352";
+const GO_BLUEHOST = "/go/bluehost";
 
 function Affiliate({ children }: { children: React.ReactNode }) {
   return (
-    <a href={AFFILIATE_LINK} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+    <Link href={GO_BLUEHOST} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
       {children}
-    </a>
+    </Link>
   );
 }
 
@@ -305,9 +305,9 @@ export default function BluehostPage() {
                 <p className="text-xs text-blue-300 mb-2 uppercase tracking-wider">Limited Offer</p>
                 <div className="text-xl font-bold text-white mb-1">3 折優惠中</div>
                 <div className="text-xs text-zinc-400 mb-4">送免費網域一年</div>
-                <a href={AFFILIATE_LINK} target="_blank" rel="noopener noreferrer" className="block w-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold py-3 rounded-lg transition shadow-lg shadow-blue-900/30">
+                <Link href={GO_BLUEHOST} target="_blank" rel="noopener noreferrer" className="block w-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold py-3 rounded-lg transition shadow-lg shadow-blue-900/30 text-center">
                   領取優惠連結
-                </a>
+                </Link>
               </div>
             </div>
           </aside>

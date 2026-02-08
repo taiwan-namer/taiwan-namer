@@ -1,53 +1,62 @@
-<!--
-Sync Impact Report (speckit.constitution)
-- Version change: (none) → 1.0.0
-- Modified principles: N/A (initial fill from template)
-- Added sections: Core Principles I–V, Additional Constraints, Development Workflow, Governance
-- Removed sections: None
-- Templates requiring updates: plan-template.md (Constitution Check references this file) ✅ aligned; spec-template.md ✅ no mandatory section changes; tasks-template.md ✅ no principle-driven task type changes
-- Follow-up TODOs: None
--->
+# 專案開發原則 (Constitution)
 
-# 台味命名大師 (Taiwan Namer) Constitution
+## 一、語言與文件規範
+1. **語言規範**
+   - 所有程式碼註解、文件、提交訊息、技術文件及溝通，一律使用**繁體中文**。
+   - 命名時若需使用英文，應採用清晰且通用的詞彙，避免使用拼音或非標準縮寫。
+   - 錯誤訊息及使用者介面文字，應根據產品需求進行繁體中文在地化。
 
-## Core Principles
+2. **文件標準**
+   - 專案必須包含 `README.md`，以繁體中文說明專案目標、架構、啟動方式。
+   - 所有 API 文件、元件說明、架構決策記錄 (ADR) 均需以繁體中文撰寫。
+   - 文件應保持即時更新，與程式碼變更同步。
 
-### I. User-First & Free Tools
+## 二、程式碼風格與品質
+1. **程式碼風格**
+   - 使用 **ESLint** 與 **Prettier** 進行程式碼自動格式化，配置需統一。
+   - 採用嚴格的 **TypeScript** 規範，禁止使用 `any` 類型，需明確定義介面與型別。
+   - 元件、函數、變數命名需具描述性，採用駝峰式命名法 (camelCase)，元件使用帕斯卡命名法 (PascalCase)。
 
-All core product value (AI domain naming, domain search, guides) MUST remain free and usable without paywall. UX MUST be clear: no dark patterns, no forced sign-up for core flows. Rationale: Trust and discoverability drive affiliate and organic growth; obfuscation harms both.
+2. **程式碼品質**
+   - 所有提交前必須通過靜態檢查 (linting) 與型別檢查。
+   - 需撰寫單元測試與整合測試，覆蓋率不低於 **80%**。
+   - 禁止提交未經審查的程式碼，所有變更需經過 **Pull Request** 流程，並由至少一位成員審核。
 
-### II. Affiliate & Legal Compliance (NON-NEGOTIABLE)
+## 三、技術棧與架構
+1. **核心技術**
+   - 前端框架：**Next.js** (最新穩定版)。
+   - 語言：**TypeScript**。
+   - 樣式解決方案：**Tailwind CSS** 或 **CSS Modules**，依專案需求統一選擇。
+   - 狀態管理：優先使用 **React Context** 或 **Zustand**，大型專案可考慮 **Redux Toolkit**。
+   - API 通訊：使用 **axios** 或 **fetch API**，並統一封裝錯誤處理與攔截器。
 
-Affiliate links (GoDaddy, Namecheap, Bluehost, etc.) MUST be disclosed in a **clear and conspicuous** manner per FTC expectations. Every page with affiliate links MUST have a visible disclosure (e.g. reader rights / Affiliate Disclosure box) near the top. Footer MUST include a site-wide Affiliate Disclosure in readable contrast (e.g. `text-zinc-300` on dark background). Rationale: Compliance is required for program approval and long-term sustainability.
+2. **架構原則**
+   - 採用 **Feature-based** 或 **Domain-driven** 目錄結構，確保職責分離。
+   - 遵循 **Atomic Design** 或類似元件分類原則，提升元件復用性。
+   - 伺服器端邏輯需與前端分離，複雜商業邏輯應置於 **API Routes** 或獨立服務層。
 
-### III. Real Person & Trust Signals
+## 四、效能與最佳實踐
+1. **效能要求**
+   - 頁面載入速度需符合 **Core Web Vitals** 標準。
+   - 圖片與靜態資源必須進行優化，使用 **next/image** 元件。
+   - 實作 **Code Splitting** 與 **Lazy Loading**，減少初始載入體積。
 
-The site MUST present a real operator (e.g. About page with named founder, Contact with real email, reply commitment such as “We typically reply within 24 hours”). Content MUST avoid generic “we” where a first-person or named voice is appropriate. Rationale: Affiliate programs and users expect a real, maintainable site, not a zombie or purely automated presence.
+2. **安全與維護**
+   - 禁止在客戶端儲存敏感資訊，金鑰與機密資料必須透過環境變數管理。
+   - 定期更新依賴套件，修補已知安全漏洞。
+   - 錯誤處理需統一，前端應有全域錯誤邊界，後端需記錄日誌。
 
-### IV. Technical Quality & Maintainability
+## 五、開發流程
+1. **版本控制**
+   - 使用 **Git** 進行版本控制，分支策略遵循 **Git Flow** 或 **GitHub Flow**。
+   - 提交訊息需清晰，格式參考 Conventional Commits。
+   - 專案需配置 **CI/CD** 管道，自動執行測試、檢查與部署。
 
-Primary stack: Next.js (App Router), TypeScript, Tailwind CSS. New features MUST follow existing patterns (layout, metadata, components). Shared affiliate link logic MUST live in a single place (e.g. `getAffiliateLink` / constants) so program URLs can be updated once. Rationale: Consistency and single-source-of-truth reduce errors and ease future program changes.
+2. **團隊協作**
+   - 每日進行進度同步，定期進行程式碼審查與重構。
+   - 重大技術決策需記錄於 ADR，並經團隊共識。
+   - 鼓勵知識分享，定期進行技術內部分享。
 
-### V. SEO & Shareability
+---
 
-Global metadata MUST define `metadataBase`, `title.template`, and `title.default`. Pages SHOULD set appropriate `description` and OpenGraph fields. `siteName` and `locale` (e.g. `zh_TW`) MUST be set for social sharing. Rationale: Correct metadata improves search and link previews (Google, FB, LINE).
-
-## Additional Constraints
-
-- **Tech stack**: Next.js 14+ (App Router), TypeScript, Tailwind CSS, Lucide React. No new heavy runtimes without justification.
-- **Affiliate programs**: All affiliate URLs MUST be configurable via constants or config; deep links MUST preserve “named” destination URLs (e.g. domain-specific search) where applicable, wrapped with affiliate redirect.
-- **Design**: Dark mode default, gradient glows, glassmorphism cards, Noto Sans TC; new UI MUST align with existing style.
-
-## Development Workflow
-
-- **Spec/plan/tasks**: Use speckit commands (`/speckit.specify`, `/speckit.plan`, `/speckit.tasks`) for new features when scope is non-trivial; constitution principles MUST be reflected in plan “Constitution Check” and task coverage.
-- **Content**: New tutorial or guide pages MUST include a reader rights / affiliate disclosure block near the top and MUST link to Privacy (and Terms where relevant).
-- **Deployment**: Build MUST pass (`npm run build`); no secrets or live API keys in repo.
-
-## Governance
-
-- This constitution supersedes ad-hoc practices for principles listed above. Any conflict between spec/plan/tasks and the constitution MUST be resolved in favor of the constitution unless the constitution is amended.
-- **Amendments**: Require updating this file, bumping version per semver (MAJOR: principle removal/redefinition; MINOR: new principle/section; PATCH: wording/clarification), and updating `LAST_AMENDED_DATE`. Document change in Sync Impact Report (HTML comment at top).
-- **Compliance**: PRs and reviews SHOULD verify that new or changed features do not violate Core Principles; violations MUST be called out and fixed before merge.
-
-**Version**: 1.0.0 | **Ratified**: 2026-02-04 | **Last Amended**: 2026-02-04
+**此原則為專案最高指導方針，所有成員必須嚴格遵守。若有調整需求，需經技術團隊討論並更新本文檔。**

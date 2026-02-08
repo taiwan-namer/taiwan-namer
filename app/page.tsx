@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import {
   Sparkles,
@@ -12,21 +12,22 @@ import {
   AlertCircle,
   ExternalLink,
   FileText,
+  Copy,
+  Heart,
+  Share2,
 } from "lucide-react";
 import { PricingTable, CTAButton } from "@/components/BlogParts";
+import { getGoLink } from "@/lib/redirect";
+import { trackEvent } from "@/lib/analytics";
 
-// 🟢 賺錢設定區 (等到 CJ 審核通過後，把 ID 填在這邊)
-// 目前留空 ("") 代表「審核模式」，會直接連去官網，方便審核員檢查
-const CJ_CONFIG = {
-  // 你的 Publisher ID (通常是 7 位數)
-  pid: "", 
-  
-  // GoDaddy 的廣告 ID (AID) - 審核過後在 CJ 後台會看到
-  godaddyAid: "", 
-  
-  // Namecheap 的廣告 ID (AID)
-  namecheapAid: "",
-};
+const FAVORITES_KEY = "taiwan-namer-favorites";
+const TLD_OPTIONS = [
+  { value: ".com", label: ".com" },
+  { value: ".tw", label: ".tw" },
+  { value: ".com.tw", label: ".com.tw" },
+  { value: ".io", label: ".io" },
+  { value: ".ai", label: ".ai" },
+];
 
 type DomainResult = {
   domain: string;
@@ -52,34 +53,15 @@ function isTwDomain(domain: string): boolean {
   return d.endsWith(".tw") || d.endsWith(".com.tw");
 }
 
-/** * 🟢 自動產生賺錢連結的核心功能 
- * 邏輯：先產生「帶網域的查詢連結」為目的地，再以聯盟網址包裝（與 GoDaddy 一致）
- */
-const NAMECHEAP_AFFILIATE_BASE = "https://www.tkqlhce.com/click-101646408-15083037";
-
-function getAffiliateLink(provider: "godaddy" | "namecheap", domain: string) {
-  const d = domain.trim();
-  let targetUrl = "";
-
-  // 1. 先產生「目的地網址」 (帶網域的查詢連結，客戶最後會去的地方)
-  if (provider === "godaddy") {
-    targetUrl = `https://www.godaddy.com/domainsearch/find?checkAvail=1&domainToCheck=${encodeURIComponent(d)}`;
-  } else {
-    targetUrl = `https://www.namecheap.com/domains/registration/results/?domain=${encodeURIComponent(d)}`;
-  }
-
-  // 2. Namecheap：以聯盟網址包裝目的地（與 GoDaddy 一樣有命名連結 + 聯盟追蹤）
-  if (provider === "namecheap") {
-    return `${NAMECHEAP_AFFILIATE_BASE}?url=${encodeURIComponent(targetUrl)}`;
-  }
-
-  // 3. GoDaddy：檢查是否有填寫 CJ PID (審核通過後)
-  if (CJ_CONFIG.pid && CJ_CONFIG.godaddyAid) {
-    return `https://www.jdoqocy.com/click-${CJ_CONFIG.pid}-${CJ_CONFIG.godaddyAid}?url=${encodeURIComponent(targetUrl)}`;
-  }
-
-  // 4. 如果沒填 ID (審核中)，直接回傳官網連結
-  return targetUrl;
+/** 取得 domain 的 TLD（如 .com, .tw, .com.tw） */
+function getTld(domain: string): string {
+  const lower = domain.toLowerCase().trim();
+  if (lower.endsWith(".com.tw")) return ".com.tw";
+  if (lower.endsWith(".com")) return ".com";
+  if (lower.endsWith(".tw")) return ".tw";
+  if (lower.endsWith(".io")) return ".io";
+  if (lower.endsWith(".ai")) return ".ai";
+  return "";
 }
 
 export default function Home() {
@@ -87,8 +69,42 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<DomainResult[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [preferredTlds, setPreferredTlds] = useState<string[]>([".com", ".tw"]);
+  const [favorites, setFavorites] = useState<string[]>([]);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(FAVORITES_KEY);
+      setFavorites(raw ? JSON.parse(raw) : []);
+    } catch {
+      setFavorites([]);
+    }
+  }, []);
+
+  const toggleFavorite = useCallback((domain: string) => {
+    setFavorites((prev) => {
+      const next = prev.includes(domain) ? prev.filter((d) => d !== domain) : [...prev, domain];
+      try {
+        localStorage.setItem(FAVORITES_KEY, JSON.stringify(next));
+      } catch {}
+      trackEvent("favorite", { domain, action: next.includes(domain) ? "add" : "remove" });
+      return next;
+    });
+  }, []);
+
+  const copyDomain = useCallback((domain: string) => {
+    navigator.clipboard.writeText(domain).catch(() => {});
+    trackEvent("copy", { domain });
+  }, []);
+
+  const shareLink = useCallback((domain: string) => {
+    const url = typeof window !== "undefined" ? `${window.location.origin}?domain=${encodeURIComponent(domain)}` : "";
+    navigator.clipboard.writeText(url).catch(() => {});
+    trackEvent("copy", { domain });
+  }, []);
 
   async function handleGenerate() {
+    trackEvent("generate", { keyword: keyword || "珍珠奶茶、好運" });
     setError(null);
     setResults(null);
     setLoading(true);
@@ -104,7 +120,17 @@ export default function Home() {
         return;
       }
       if (Array.isArray(data?.domains)) {
-        setResults(data.domains);
+        const sorted = [...data.domains].sort((a, b) => {
+          const tldA = getTld(a.domain);
+          const tldB = getTld(b.domain);
+          const iA = preferredTlds.indexOf(tldA);
+          const iB = preferredTlds.indexOf(tldB);
+          if (iA === -1 && iB === -1) return 0;
+          if (iA === -1) return 1;
+          if (iB === -1) return -1;
+          return iA - iB;
+        });
+        setResults(sorted);
       } else {
         setError("回傳格式錯誤");
       }
@@ -162,9 +188,31 @@ export default function Home() {
               用 AI 幫你的品牌算個好命
             </span>
           </h1>
-          <p className="text-zinc-400 text-lg sm:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
+          <p className="text-zinc-400 text-lg sm:text-xl max-w-2xl mx-auto mb-8 leading-relaxed">
             全台唯一！專懂台灣諧音梗、在地文化、算命筆畫的網域生成器。
           </p>
+
+          {/* 後綴偏好 */}
+          <div className="mb-8 max-w-2xl mx-auto">
+            <p className="text-zinc-500 text-sm mb-3">後綴偏好（結果將依此排序）</p>
+            <div className="flex flex-wrap gap-3 justify-center">
+              {TLD_OPTIONS.map(({ value, label }) => (
+                <label key={value} className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={preferredTlds.includes(value)}
+                    onChange={() => {
+                      setPreferredTlds((prev) =>
+                        prev.includes(value) ? prev.filter((t) => t !== value) : [...prev, value]
+                      );
+                    }}
+                    className="rounded border-white/20 bg-white/5 text-violet-500 focus:ring-violet-500"
+                  />
+                  <span className="text-zinc-400 text-sm">{label}</span>
+                </label>
+              ))}
+            </div>
+          </div>
 
           {/* 搜尋框 + CTA */}
           <div className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto">
@@ -211,15 +259,22 @@ export default function Home() {
             {/* 🟢 AI 生成結果區塊 */}
             {results && results.length > 0 && !loading && (
               <>
+                {/* Step 引導條 */}
+                <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mb-6 text-sm">
+                  <span className="text-violet-400 font-medium">選名</span>
+                  <span className="text-zinc-600">→</span>
+                  <span className="text-emerald-400 font-medium">查價</span>
+                  <span className="text-zinc-600">→</span>
+                  <span className="text-zinc-500">購買</span>
+                  <span className="text-zinc-600">→</span>
+                  <span className="text-zinc-500">架站</span>
+                </div>
                 <p className="text-zinc-500 text-sm mb-6">AI 算命結果 · 前往註冊商比價。如有網域不同需求請至註冊商新增，如 .TW 等。</p>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 max-w-4xl mx-auto items-stretch">
                   {results.map((item, i) => {
                     const domain = item.domain.replace(/^\s*https?:\/\//i, "").split("/")[0] || item.domain;
                     const showNamecheap = !isTwDomain(domain);
-                    
-                    // 🟢 使用共用函數產生連結 (支援未來切換成賺錢連結)
-                    const godaddyUrl = getAffiliateLink("godaddy", domain);
-                    const namecheapUrl = getAffiliateLink("namecheap", domain);
+                    const isFav = favorites.includes(domain);
 
                     return (
                       <div
@@ -228,9 +283,37 @@ export default function Home() {
                       >
                         {/* 資訊區 */}
                         <div className="flex-1 min-h-0 p-6 flex flex-col bg-white/5 text-left">
-                          <span className="font-mono font-semibold text-violet-300 text-xl break-all block mb-1">
-                            {item.domain}
-                          </span>
+                          <div className="flex items-start justify-between gap-2 mb-1">
+                            <span className="font-mono font-semibold text-violet-300 text-xl break-all">
+                              {item.domain}
+                            </span>
+                            <div className="flex items-center gap-1 shrink-0">
+                              <button
+                                type="button"
+                                onClick={() => copyDomain(domain)}
+                                className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-white/10 transition"
+                                title="複製網域"
+                              >
+                                <Copy className="w-4 h-4" />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => toggleFavorite(domain)}
+                                className={`p-1.5 rounded-lg transition ${isFav ? "text-red-400" : "text-zinc-400 hover:text-white hover:bg-white/10"}`}
+                                title={isFav ? "取消收藏" : "收藏"}
+                              >
+                                <Heart className={`w-4 h-4 ${isFav ? "fill-current" : ""}`} />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => shareLink(domain)}
+                                className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-white/10 transition"
+                                title="複製分享連結"
+                              >
+                                <Share2 className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </div>
                           {item.name && (
                             <p className="text-zinc-400 text-sm mb-0.5">{item.name}</p>
                           )}
@@ -244,30 +327,32 @@ export default function Home() {
                                 <p className="text-zinc-500/70 text-xs mt-0.5" title="實際價格以註冊商為準">實際價格以註冊商為準</p>
                               </>
                             )}
-                            <p className="text-zinc-500/80 text-xs mt-2">點擊下方查詢最新狀態</p>
+                            <p className="text-zinc-500/80 text-xs mt-2">立即查價看最新價格</p>
                           </div>
                         </div>
-                        {/* 行動區 */}
+                        {/* 行動區：站內 /go 跳轉 */}
                         <div className="flex-shrink-0 p-4 bg-black/20 border-t border-white/5 flex flex-col gap-3 min-h-[130px]">
-                          <a
-                            href={godaddyUrl}
+                          <Link
+                            href={getGoLink("godaddy", domain)}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={() => trackEvent("outbound_vendor", { vendor: "godaddy", domain })}
                             className={`w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px] ${!showNamecheap ? "flex-1" : ""}`}
                           >
                             <ExternalLink className="w-4 h-4 shrink-0" />
                             前往 GoDaddy 查價
-                          </a>
+                          </Link>
                           {showNamecheap && (
-                            <a
-                              href={namecheapUrl}
+                            <Link
+                              href={getGoLink("namecheap", domain)}
                               target="_blank"
                               rel="noopener noreferrer"
+                              onClick={() => trackEvent("outbound_vendor", { vendor: "namecheap", domain })}
                               className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-orange-500 hover:bg-orange-400 text-white text-sm font-medium transition-colors min-h-[44px]"
                             >
                               <ExternalLink className="w-4 h-4 shrink-0" />
                               前往 Namecheap 查價
-                            </a>
+                            </Link>
                           )}
                         </div>
                       </div>
@@ -292,16 +377,16 @@ export default function Home() {
                       <div className="mt-auto">
                         <p className="text-violet-200 font-semibold text-base">{getPriceByDomain("WuCha.com")}</p>
                         <p className="text-zinc-500/70 text-xs mt-0.5" title="實際價格以註冊商為準">實際價格以註冊商為準</p>
-                        <p className="text-zinc-500/80 text-xs mt-2">點擊下方查詢最新狀態</p>
+                        <p className="text-zinc-500/80 text-xs mt-2">立即查價看最新價格</p>
                       </div>
                     </div>
                     <div className="flex-shrink-0 p-4 bg-black/20 border-t border-white/5 flex flex-col gap-3 min-h-[130px]">
-                      <a href={getAffiliateLink("godaddy", "WuCha.com")} target="_blank" rel="noopener noreferrer" className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px]">
+                      <Link href={getGoLink("godaddy", "WuCha.com")} target="_blank" rel="noopener noreferrer" className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px]">
                         <ExternalLink className="w-4 h-4 shrink-0" />前往 GoDaddy 查價
-                      </a>
-                      <a href={getAffiliateLink("namecheap", "WuCha.com")} target="_blank" rel="noopener noreferrer" className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-orange-500 hover:bg-orange-400 text-white text-sm font-medium transition-colors min-h-[44px]">
+                      </Link>
+                      <Link href={getGoLink("namecheap", "WuCha.com")} target="_blank" rel="noopener noreferrer" className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-orange-500 hover:bg-orange-400 text-white text-sm font-medium transition-colors min-h-[44px]">
                         <ExternalLink className="w-4 h-4 shrink-0" />前往 Namecheap 查價
-                      </a>
+                      </Link>
                     </div>
                   </div>
 
@@ -314,13 +399,13 @@ export default function Home() {
                       <div className="mt-auto">
                         <p className="text-violet-200 font-semibold text-base">{getPriceByDomain("SongLa.tw")}</p>
                         <p className="text-zinc-500/70 text-xs mt-0.5" title="實際價格以註冊商為準">實際價格以註冊商為準</p>
-                        <p className="text-zinc-500/80 text-xs mt-2">點擊下方查詢最新狀態</p>
+                        <p className="text-zinc-500/80 text-xs mt-2">立即查價看最新價格</p>
                       </div>
                     </div>
                     <div className="flex-shrink-0 p-4 bg-black/20 border-t border-white/5 flex flex-col gap-3 min-h-[130px]">
-                      <a href={getAffiliateLink("godaddy", "SongLa.tw")} target="_blank" rel="noopener noreferrer" className="w-full flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px]">
+                      <Link href={getGoLink("godaddy", "SongLa.tw")} target="_blank" rel="noopener noreferrer" className="w-full flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px]">
                         <ExternalLink className="w-4 h-4 shrink-0" />前往 GoDaddy 查價
-                      </a>
+                      </Link>
                     </div>
                   </div>
 
@@ -333,16 +418,16 @@ export default function Home() {
                       <div className="mt-auto">
                         <p className="text-violet-200 font-semibold text-base">{getPriceByDomain("TeaMe.io")}</p>
                         <p className="text-zinc-500/70 text-xs mt-0.5" title="實際價格以註冊商為準">實際價格以註冊商為準</p>
-                        <p className="text-zinc-500/80 text-xs mt-2">點擊下方查詢最新狀態</p>
+                        <p className="text-zinc-500/80 text-xs mt-2">立即查價看最新價格</p>
                       </div>
                     </div>
                     <div className="flex-shrink-0 p-4 bg-black/20 border-t border-white/5 flex flex-col gap-3 min-h-[130px]">
-                      <a href={getAffiliateLink("godaddy", "TeaMe.io")} target="_blank" rel="noopener noreferrer" className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px]">
+                      <Link href={getGoLink("godaddy", "TeaMe.io")} target="_blank" rel="noopener noreferrer" className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px]">
                         <ExternalLink className="w-4 h-4 shrink-0" />前往 GoDaddy 查價
-                      </a>
-                      <a href={getAffiliateLink("namecheap", "TeaMe.io")} target="_blank" rel="noopener noreferrer" className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-orange-500 hover:bg-orange-400 text-white text-sm font-medium transition-colors min-h-[44px]">
+                      </Link>
+                      <Link href={getGoLink("namecheap", "TeaMe.io")} target="_blank" rel="noopener noreferrer" className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-orange-500 hover:bg-orange-400 text-white text-sm font-medium transition-colors min-h-[44px]">
                         <ExternalLink className="w-4 h-4 shrink-0" />前往 Namecheap 查價
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
