@@ -21,13 +21,6 @@ import { getGoLink } from "@/lib/redirect";
 import { trackEvent } from "@/lib/analytics";
 
 const FAVORITES_KEY = "taiwan-namer-favorites";
-const TLD_OPTIONS = [
-  { value: ".com", label: ".com" },
-  { value: ".tw", label: ".tw" },
-  { value: ".com.tw", label: ".com.tw" },
-  { value: ".io", label: ".io" },
-  { value: ".ai", label: ".ai" },
-];
 
 type DomainResult = {
   domain: string;
@@ -69,7 +62,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<DomainResult[] | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [preferredTlds, setPreferredTlds] = useState<string[]>([".com", ".tw"]);
+  const preferredTlds = [".com", ".tw"];
   const [favorites, setFavorites] = useState<string[]>([]);
 
   useEffect(() => {
@@ -191,28 +184,6 @@ export default function Home() {
           <p className="text-zinc-400 text-lg sm:text-xl max-w-2xl mx-auto mb-8 leading-relaxed">
             全台唯一！專懂台灣諧音梗、在地文化、算命筆畫的網域生成器。
           </p>
-
-          {/* 後綴偏好 */}
-          <div className="mb-8 max-w-2xl mx-auto">
-            <p className="text-zinc-500 text-sm mb-3">後綴偏好（結果將依此排序）</p>
-            <div className="flex flex-wrap gap-3 justify-center">
-              {TLD_OPTIONS.map(({ value, label }) => (
-                <label key={value} className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={preferredTlds.includes(value)}
-                    onChange={() => {
-                      setPreferredTlds((prev) =>
-                        prev.includes(value) ? prev.filter((t) => t !== value) : [...prev, value]
-                      );
-                    }}
-                    className="rounded border-white/20 bg-white/5 text-violet-500 focus:ring-violet-500"
-                  />
-                  <span className="text-zinc-400 text-sm">{label}</span>
-                </label>
-              ))}
-            </div>
-          </div>
 
           {/* 搜尋框 + CTA */}
           <div className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto">
