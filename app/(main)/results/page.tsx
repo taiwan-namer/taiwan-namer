@@ -6,7 +6,6 @@ import { useSearchParams } from "next/navigation";
 import {
   Loader2,
   AlertCircle,
-  ExternalLink,
   Copy,
   Heart,
   Share2,
@@ -15,7 +14,6 @@ import {
 } from "lucide-react";
 import { getGoLink } from "@/lib/redirect";
 import { trackEvent } from "@/lib/analytics";
-import { PricingTable, CTAButton } from "@/components/BlogParts";
 
 const FAVORITES_KEY = "taiwan-namer-favorites";
 const DEFAULT_KEYWORD = "珍珠奶茶、好運";
@@ -26,16 +24,6 @@ type DomainResult = {
   name: string;
   price?: string;
 };
-
-function getPriceByDomain(domain: string): string {
-  const d = domain.toLowerCase().trim();
-  if (d.endsWith(".ai")) return "NT$ 3,000 起";
-  if (d.endsWith(".io")) return "NT$ 1,800 起";
-  if (d.endsWith(".com.tw")) return "NT$ 900 起";
-  if (d.endsWith(".tw")) return "NT$ 300 起";
-  if (d.endsWith(".com")) return "NT$ 450 起";
-  return "NT$ 600 起";
-}
 
 function isTwDomain(domain: string): boolean {
   const d = domain.toLowerCase().trim();
@@ -62,6 +50,7 @@ function ResultsContent() {
   const [results, setResults] = useState<DomainResult[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [favorites, setFavorites] = useState<string[]>([]);
+  const [copiedDomain, setCopiedDomain] = useState<string | null>(null);
 
   useEffect(() => {
     try {
@@ -133,6 +122,8 @@ function ResultsContent() {
   const copyDomain = useCallback((domain: string) => {
     navigator.clipboard.writeText(domain).catch(() => {});
     trackEvent("copy", { domain });
+    setCopiedDomain(domain);
+    setTimeout(() => setCopiedDomain(null), 2000);
   }, []);
 
   const shareLink = useCallback((domain: string) => {
@@ -176,8 +167,11 @@ function ResultsContent() {
 
       {!loading && !error && results.length > 0 && (
         <>
-          <p className="text-zinc-300 text-lg mb-8">
+          <p className="text-zinc-300 text-lg mb-2">
             🎉 為你找到 {results.length} 個超台的網域名稱！
+          </p>
+          <p className="text-amber-400/90 text-sm mb-6">
+            ⚡ 熱門網域先搶先贏 · 選好後立即前往註冊商完成購買
           </p>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
@@ -186,16 +180,18 @@ function ResultsContent() {
               const showNamecheap = !isTwDomain(domain);
               const isFav = favorites.includes(domain);
               const isRecommended = i === 0;
+              const justCopied = copiedDomain === domain;
 
               return (
-                <div
+                <article
                   key={item.domain}
-                  className={`h-full flex flex-col rounded-2xl overflow-hidden border transition-colors min-h-[280px] ${
+                  className={`h-full flex flex-col rounded-2xl overflow-hidden border transition-colors min-h-[300px] ${
                     isRecommended
                       ? "border-amber-500/40 shadow-lg shadow-amber-500/10 bg-white/[0.06]"
                       : "border-white/10 hover:border-white/15 bg-white/5"
                   }`}
                 >
+                  {/* 卡片標題區 */}
                   <div className="flex-1 min-h-0 p-6 flex flex-col text-left">
                     {isRecommended && (
                       <span className="inline-flex items-center gap-1 text-amber-400 text-sm font-medium mb-3">
@@ -210,26 +206,35 @@ function ResultsContent() {
                         <button
                           type="button"
                           onClick={() => copyDomain(domain)}
-                          className="p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-white/10 transition"
-                          title="複製"
+                          className={`min-w-[40px] min-h-[40px] flex items-center justify-center rounded-lg transition ${
+                            justCopied ? "text-emerald-400 bg-emerald-500/20" : "text-zinc-400 hover:text-white hover:bg-white/10"
+                          }`}
+                          title="一鍵複製網域"
+                          aria-label={justCopied ? "已複製" : "複製網域"}
                         >
-                          <Copy className="w-4 h-4" />
+                          {justCopied ? (
+                            <span className="text-xs font-medium">已複製</span>
+                          ) : (
+                            <Copy className="w-4 h-4" />
+                          )}
                         </button>
                         <button
                           type="button"
                           onClick={() => toggleFavorite(domain)}
-                          className={`p-2 rounded-lg transition ${
+                          className={`min-w-[40px] min-h-[40px] flex items-center justify-center rounded-lg transition ${
                             isFav ? "text-red-400" : "text-zinc-400 hover:text-white hover:bg-white/10"
                           }`}
                           title={isFav ? "取消收藏" : "收藏"}
+                          aria-label={isFav ? "取消收藏" : "加入收藏"}
                         >
                           <Heart className={`w-4 h-4 ${isFav ? "fill-current" : ""}`} />
                         </button>
                         <button
                           type="button"
                           onClick={() => shareLink(domain)}
-                          className="p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-white/10 transition"
+                          className="min-w-[40px] min-h-[40px] flex items-center justify-center rounded-lg text-zinc-400 hover:text-white hover:bg-white/10 transition"
                           title="分享"
+                          aria-label="分享此網域"
                         >
                           <Share2 className="w-4 h-4" />
                         </button>
@@ -253,16 +258,16 @@ function ResultsContent() {
                     </div>
                   </div>
 
+                  {/* 主要 CTA：查價／立即註冊 */}
                   <div className="flex-shrink-0 p-4 bg-black/20 border-t border-white/5 flex flex-col gap-3">
                     <Link
                       href={getGoLink("godaddy", domain)}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => trackEvent("outbound_vendor", { vendor: "godaddy", domain })}
-                      className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors min-h-[44px]"
+                      className="w-full inline-flex items-center justify-center px-4 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold transition-colors min-h-[48px]"
                     >
-                      <ExternalLink className="w-4 h-4 shrink-0" />
-                      🛒 GoDaddy 立即查價
+                      GoDaddy
                     </Link>
                     {showNamecheap && (
                       <Link
@@ -270,35 +275,35 @@ function ResultsContent() {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={() => trackEvent("outbound_vendor", { vendor: "namecheap", domain })}
-                        className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-orange-500 hover:bg-orange-400 text-white text-sm font-medium transition-colors min-h-[44px]"
+                        className="w-full inline-flex items-center justify-center px-4 py-3.5 rounded-xl bg-orange-500 hover:bg-orange-400 text-white text-sm font-semibold transition-colors min-h-[48px]"
                       >
-                        <ExternalLink className="w-4 h-4 shrink-0" />
-                        💳 Namecheap 比價
+                        Namecheap
                       </Link>
                     )}
                   </div>
-                </div>
+                </article>
               );
             })}
           </div>
         </>
       )}
 
-      {/* HostingBanner - 專業提示 */}
+      {/* HostingBanner - 下一步引導（聯盟導流經 /go，點擊可追蹤） */}
       {!loading && results.length > 0 && (
         <section className="mt-14 pt-10 border-t border-white/5">
           <div className="glass rounded-2xl p-6 md:p-8 border border-white/10 text-center">
             <h3 className="text-lg font-semibold text-zinc-100 mb-2">
-              💡 選好網域了？別忘了需要主機才能上線！
+              💡 選好網域了？下一步：主機才能讓網站上線
             </h3>
             <p className="text-zinc-500 text-sm mb-6">
-              推薦 Bluehost，首年優惠送免費網域一年。
+              推薦 Bluehost，首年優惠送免費網域一年，限時方案售完為止。
             </p>
             <Link
               href="/go/bluehost"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-medium transition-colors"
+              onClick={() => trackEvent("outbound_vendor", { vendor: "bluehost" })}
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors min-h-[48px]"
             >
               <Rocket className="w-5 h-5" />
               查看推薦主機方案 - 限時優惠
