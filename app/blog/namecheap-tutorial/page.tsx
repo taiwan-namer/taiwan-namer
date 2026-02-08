@@ -3,7 +3,10 @@ import { ArticleHeader, SectionTitle, StepBlock } from "@/components/BlogParts";
 import { ArrowLeft } from "lucide-react";
 
 // 與首頁一致：無 CJ 時連官網，之後可改為聯盟連結
-const NAMECHEAP_LINK = "https://www.namecheap.com/domains/registration/results/";
+// 聯盟網址 + 帶目的地的查詢連結（與首頁 GoDaddy 邏輯一致）
+const NAMECHEAP_AFFILIATE_BASE = "https://www.tkqlhce.com/click-101646408-15083037";
+const NAMECHEAP_SEARCH_URL = "https://www.namecheap.com/domains/registration/results/";
+const NAMECHEAP_LINK = `${NAMECHEAP_AFFILIATE_BASE}?url=${encodeURIComponent(NAMECHEAP_SEARCH_URL)}`;
 
 function NamecheapAffiliate({ children }: { children: React.ReactNode }) {
   return (

@@ -10,26 +10,36 @@ const notoSansTC = Noto_Sans_TC({
 });
 
 export const metadata: Metadata = {
-  title: "台味命名大師 | AI 幫你的品牌算個好命 (網域生成器)",
-  description: "全台唯一！專懂台灣諧音梗、在地文化、算命筆畫的 AI 網域生成器。輸入關鍵字，自動生成好記的英文網域，並即時查詢 GoDaddy 與 Namecheap 價格。",
+  metadataBase: new URL("https://www.taiwannamer.com"),
+  title: {
+    default: "台味命名大師 | AI 幫你的品牌算個好命 (網域生成與架站攻略)",
+    template: "%s | 台味命名大師",
+  },
+  description:
+    "全台唯一結合在地諧音梗與命理的 AI 網域生成器。不只幫你取好名，還教你用 Bluehost、Namecheap 快速架站，開啟你的創業之路。",
+  icons: {
+    icon: "/icon.png",
+    apple: "/icon.png",
+  },
   other: {
     "impact-site-verification": "7f43056d-bae8-400e-a6fc-4737172460c9",
   },
   keywords: [
-    "公司命名", 
-    "網域產生器", 
-    "AI取名", 
-    "諧音梗生成器", 
-    "台灣品牌命名", 
-    "Domain Name Generator", 
-    "創業工具", 
-    "GoDaddy比價", 
+    "公司命名",
+    "網域產生器",
+    "AI取名",
+    "諧音梗生成器",
+    "台灣品牌命名",
+    "Domain Name Generator",
+    "創業工具",
+    "GoDaddy比價",
     "Namecheap推薦",
-    "品牌算命"
+    "品牌算命",
   ],
   openGraph: {
-    title: "台味命名大師 - 用 AI 幫你的品牌算個好命",
-    description: "不想燒腦想名字？讓 AI 幫你算筆畫、玩諧音，還能直接查網域有沒有人用！",
+    title: "台味命名大師 | AI 幫你的品牌算個好命 (網域生成與架站攻略)",
+    description:
+      "全台唯一結合在地諧音梗與命理的 AI 網域生成器。不只幫你取好名，還教你用 Bluehost、Namecheap 快速架站，開啟你的創業之路。",
     url: "https://www.taiwannamer.com",
     siteName: "台味命名大師",
     locale: "zh_TW",

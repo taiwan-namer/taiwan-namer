@@ -53,28 +53,32 @@ function isTwDomain(domain: string): boolean {
 }
 
 /** * 🟢 自動產生賺錢連結的核心功能 
- * 邏輯：如果有填 CJ ID，就產生追蹤連結；如果沒填，就產生普通連結(給審核看)
+ * 邏輯：先產生「帶網域的查詢連結」為目的地，再以聯盟網址包裝（與 GoDaddy 一致）
  */
+const NAMECHEAP_AFFILIATE_BASE = "https://www.tkqlhce.com/click-101646408-15083037";
+
 function getAffiliateLink(provider: "godaddy" | "namecheap", domain: string) {
   const d = domain.trim();
   let targetUrl = "";
 
-  // 1. 先產生「目的地網址」 (客戶最後會去的地方)
+  // 1. 先產生「目的地網址」 (帶網域的查詢連結，客戶最後會去的地方)
   if (provider === "godaddy") {
     targetUrl = `https://www.godaddy.com/domainsearch/find?checkAvail=1&domainToCheck=${encodeURIComponent(d)}`;
   } else {
     targetUrl = `https://www.namecheap.com/domains/registration/results/?domain=${encodeURIComponent(d)}`;
   }
 
-  // 2. 檢查是否有填寫 PID (審核通過後)
-  if (CJ_CONFIG.pid && ((provider === "godaddy" && CJ_CONFIG.godaddyAid) || (provider === "namecheap" && CJ_CONFIG.namecheapAid))) {
-    // 這裡之後會填入 CJ 的追蹤網域格式，目前先預留邏輯
-    const aid = provider === "godaddy" ? CJ_CONFIG.godaddyAid : CJ_CONFIG.namecheapAid;
-    // 這是標準 CJ Deep Link 格式 (範例)
-    return `https://www.jdoqocy.com/click-${CJ_CONFIG.pid}-${aid}?url=${encodeURIComponent(targetUrl)}`;
+  // 2. Namecheap：以聯盟網址包裝目的地（與 GoDaddy 一樣有命名連結 + 聯盟追蹤）
+  if (provider === "namecheap") {
+    return `${NAMECHEAP_AFFILIATE_BASE}?url=${encodeURIComponent(targetUrl)}`;
   }
 
-  // 3. 如果沒填 ID (審核中)，直接回傳官網連結
+  // 3. GoDaddy：檢查是否有填寫 CJ PID (審核通過後)
+  if (CJ_CONFIG.pid && CJ_CONFIG.godaddyAid) {
+    return `https://www.jdoqocy.com/click-${CJ_CONFIG.pid}-${CJ_CONFIG.godaddyAid}?url=${encodeURIComponent(targetUrl)}`;
+  }
+
+  // 4. 如果沒填 ID (審核中)，直接回傳官網連結
   return targetUrl;
 }
 
