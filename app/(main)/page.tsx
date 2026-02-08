@@ -119,17 +119,17 @@ function PreviewResults() {
       <h2 className="text-xl font-semibold text-center text-zinc-200 mb-8">
         你知道買網域也能賺錢？
       </h2>
-      <div className="flex flex-wrap justify-center gap-4 max-w-3xl mx-auto">
+      <div className="grid grid-cols-4 gap-3 sm:gap-4 max-w-5xl mx-auto">
         {examples.map(({ domain, name, meaning, sellPrice, namecheapPrice }) => (
-          <div key={domain} className="flex flex-col items-center">
+          <div key={domain} className="flex flex-col items-center min-w-0 text-center">
             <Link
               href={`/results?q=${encodeURIComponent(name)}`}
-              className="glass rounded-xl px-5 py-4 border border-white/10 hover:border-violet-500/30 transition-all text-left min-w-[140px]"
+              className="glass rounded-xl px-3 sm:px-5 py-4 border border-white/10 hover:border-violet-500/30 transition-all w-full"
             >
-              <span className="font-mono font-semibold text-violet-300 block truncate">
+              <span className="font-mono font-semibold text-violet-300 block truncate whitespace-nowrap">
                 {domain}
               </span>
-              <span className="text-zinc-500 text-sm">{meaning}</span>
+              <span className="text-zinc-500 text-sm whitespace-nowrap">{meaning}</span>
             </Link>
             {sellPrice != null && (
               <Link
@@ -137,7 +137,7 @@ function PreviewResults() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackEvent("outbound_vendor", { vendor: "godaddy", domain })}
-                className="mt-2 text-sm font-semibold text-emerald-400 hover:text-emerald-300 underline underline-offset-2"
+                className="mt-2 text-sm font-semibold text-emerald-400 hover:text-emerald-300 underline underline-offset-2 whitespace-nowrap"
               >
                 GoDaddy 售價 NT${sellPrice}
               </Link>
@@ -148,9 +148,9 @@ function PreviewResults() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackEvent("outbound_vendor", { vendor: "namecheap", domain })}
-                className="mt-1 text-sm font-semibold text-orange-400 hover:text-orange-300 underline underline-offset-2"
+                className="mt-1 text-sm font-semibold text-orange-400 hover:text-orange-300 underline underline-offset-2 whitespace-nowrap"
               >
-                Namecheap 售價 ${namecheapPrice} 美金
+                Namecheap 售價 US$ {namecheapPrice}
               </Link>
             )}
           </div>
@@ -188,33 +188,6 @@ function HowItWorks() {
             <h3 className="font-semibold text-zinc-100 mb-1">{title}</h3>
             <p className="text-zinc-500 text-sm">{desc}</p>
           </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-/** Social Proof - 使用者見證 */
-function Testimonials() {
-  const items = [
-    { quote: "三秒鐘就找到超台的名字！", author: "阿明老闆" },
-    { quote: "比自己想破頭還要有創意", author: "小美設計師" },
-  ];
-
-  return (
-    <section className="py-14 px-6 border-t border-white/5">
-      <h2 className="text-2xl font-semibold text-center text-zinc-200 mb-10">
-        他們都找到了完美網域
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-        {items.map(({ quote, author }) => (
-          <blockquote
-            key={author}
-            className="glass rounded-xl p-6 border border-white/5"
-          >
-            <p className="text-zinc-300 mb-3">「{quote}」</p>
-            <cite className="text-zinc-500 text-sm not-italic">— {author}</cite>
-          </blockquote>
         ))}
       </div>
     </section>
@@ -313,7 +286,6 @@ export default function HomePage() {
       <TrustBar />
       <PreviewResults />
       <HowItWorks />
-      <Testimonials />
       <BlogPreview />
       <HostingSection />
       <FooterCTA />
