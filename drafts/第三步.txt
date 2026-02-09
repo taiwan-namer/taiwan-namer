@@ -1,44 +1,66 @@
-這是專為記事本排版優化的 Namecheap 第四步：DNS 設定教學 文稿。
+【四、 安裝篇：一鍵啟動你的 WordPress】
+當你完成 Bluehost 的購買流程後，最神奇的部分來了：你不需要下載任何軟體，也不需要碰任何程式碼。Bluehost 的系統會自動引導你完成安裝。
 
-為了讓新手在純文字環境下也能看懂，我將步驟簡化為「指向主機」的具體動作，並保留了對齊格式。
+■ 1. 登入 Bluehost 儀表板
 
-【四、 DNS 設定教學：快速連結你的網站】
-買好網域後，最後一個技術大關就是將它「指向」你的主機，網站才能正式被看見。
+結帳完成後，系統會要求你設定帳戶密碼。
 
-■ 1. 登入後台並尋找網域
+登入後，你會進入「Bluehost Portal」。
 
-登入 Namecheap，點擊左側選單的 【Domain List】（網域清單）。
+系統通常會主動跳出「Create your website」的精靈視導航。你可以選擇按照它的引導填寫，或者點擊「Skip this step」進入手動安裝模式。
 
-在你剛買好的網域右側，點擊綠色的 【MANAGE】（管理）按鈕。
+■ 2. 一鍵安裝 WordPress 流程 如果你選擇手動或想重新安裝：
 
-■ 2. 修改名稱伺服器 (Nameservers) 如果你是使用外部主機（例如 SiteGround, Bluehost, Cloudways）：
+在左側選單點擊 【My Sites】。
 
-在畫面上方找到 【NAMESERVERS】 區塊。
+點擊右上角的 【Create Site】 按鈕。
 
-將下拉選單從「Namecheap BasicDNS」改為 【Custom DNS】。
+選擇 【WordPress】（這是最標準且功能最強大的選項）。
 
-在下方的欄位中，填入主機商提供給你的兩組網址：
+設定你的「網站標題 (Site Title)」與「網站副標題 (Tagline)」：
 
-第一組：https://www.google.com/search?q=ns1.yourhost.com
+例如：標題「童趣島」、副標題「帶孩子探索世界的奇妙冒險」。
 
-第二組：https://www.google.com/search?q=ns2.yourhost.com
+這些設定之後在 WordPress 後台隨時可以改。
 
-【重要】 點擊右邊綠色的「勾勾圖示」儲存設定。
+選擇網域：下拉選單選你剛才領取的那個免費網域。
 
-■ 3. 使用 A 紀錄指向（適合特定架站平台） 如果你不更換 Nameservers，只需設定 A 紀錄：
+取消勾選預裝外掛：系統可能會問你要不要裝 WPForms 或 MonsterInsights，建議【先不勾】，等進去後再視需求安裝，保持網站乾淨。
 
-點擊上方的橫式標籤 【Advanced DNS】。
+■ 3. 獲取你的登入資訊（重要存檔！） 安裝完成後，系統會顯示你的：
 
-在「Host Records」區塊，點擊「ADD NEW RECORD」。
+WordPress Admin URL（後台網址）： 通常是 你的網址/wp-admin。
 
-選擇「A Record」，Host 填入「@」，Value 填入主機的「IP 位址」。
+Username（帳號）： 預設通常是你的 Email。
 
-再次點擊綠色勾勾儲存。
+Password（密碼）： 建議點擊顯示並立刻複製存進記事本。
 
-■ 4. 靜候生效（DNS Propagation）
+■ 4. 進入 WordPress 後台的首要任務 點擊「Log into WordPress」後，你會看到黑白配色的控制台。請優先做這三件事：
 
-不要急： 設定完成後，全球網路需要時間更新。
+修改語言：
 
-時間： 通常 30 分鐘內生效，最長可能需要 24-48 小時。
+進入左側選單的 【Settings】 -> 【General】。
 
-檢查工具： 建議搜尋「DNS Checker」，輸入網址，如果看到全球地圖都亮綠燈，就代表成功了！
+找到「Site Language」，改為 【繁體中文】。
+
+順便將「Timezone」改為 【UTC+8】（台北時間）。
+
+優化「永久連結 (Permalinks)」：
+
+這是為了 SEO 排名。進入 【設定】 -> 【永久連結】。
+
+將設定改為 【文章名稱 (Post name)】。
+
+這樣你的網址會是 domain.com/hello-world 而不是一堆亂碼數字。
+
+開啟 SSL 安全憑證（綠色鎖頭）：
+
+在 Bluehost 後台的「Security」分頁，確認「SSL Certificate」顯示為【ON】。
+
+這樣你的網址開頭就會是 https://，這是 2026 年架站的基本門檻。
+
+■ 5. 為什麼推薦在 Bluehost 安裝？
+
+自動更新： Bluehost 會幫你監測 WordPress 核心程式碼，有安全更新時會自動處理。
+
+24/7 救援： 如果你在安裝過程中卡住，右下角的 Live Chat 客服可以直接進去後台幫你點按鈕。

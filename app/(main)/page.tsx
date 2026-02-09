@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -12,6 +12,8 @@ import {
 import { trackEvent } from "@/lib/analytics";
 import { getGoLink } from "@/lib/redirect";
 import { PricingTable } from "@/components/BlogParts";
+
+const NAMEBIO_URL = "https://namebio.com/";
 
 const DEFAULT_KEYWORD = "珍珠奶茶、好運";
 
@@ -97,68 +99,119 @@ function TrustBar() {
         </span>
         <span className="text-zinc-600">|</span>
         <span className="text-zinc-500">合作夥伴：</span>
-        <span className="text-emerald-400 font-medium">GoDaddy</span>
-        <span className="text-orange-400 font-medium">Namecheap</span>
-        <span className="text-blue-400 font-medium">Bluehost</span>
+        <Link href="/go/godaddy" target="_blank" rel="noopener noreferrer" className="text-emerald-400 font-medium hover:text-emerald-300 hover:underline transition-colors" onClick={() => trackEvent("outbound_vendor", { vendor: "godaddy", source: "trustbar" })}>GoDaddy</Link>
+        <Link href="/go/namecheap" target="_blank" rel="noopener noreferrer" className="text-orange-400 font-medium hover:text-orange-300 hover:underline transition-colors" onClick={() => trackEvent("outbound_vendor", { vendor: "namecheap", source: "trustbar" })}>Namecheap</Link>
+        <Link href="/go/bluehost" target="_blank" rel="noopener noreferrer" className="text-blue-400 font-medium hover:text-blue-300 hover:underline transition-colors" onClick={() => trackEvent("outbound_vendor", { vendor: "bluehost", source: "trustbar" })}>Bluehost</Link>
       </div>
     </section>
   );
 }
 
-/** Preview Results - 範例結果，點擊可進入結果頁體驗 */
-function PreviewResults() {
+/** 價值錨點區塊 - 你知道買網域也能賺錢？ */
+function ValueAnchorSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const viewTracked = useRef(false);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (viewTracked.current) return;
+        if (entries[0]?.isIntersecting) {
+          viewTracked.current = true;
+          trackEvent("value_anchor_view", {});
+        }
+      },
+      { threshold: 0.2, rootMargin: "0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollToSearchAndFocus = () => {
+    trackEvent("value_anchor_cta_click", {});
+    const input = document.getElementById("hero-keyword");
+    if (input) {
+      input.scrollIntoView({ behavior: "smooth", block: "center" });
+      setTimeout(() => (input as HTMLInputElement).focus(), 400);
+    }
+  };
+
   const examples = [
-    { domain: "KuBeh.com", name: "酷唄", meaning: "酷唄", sellPrice: "139,354" },
-    { domain: "hourwolf.com", name: "好狼", meaning: "好狼", sellPrice: "75,237" },
-    { domain: "asecurity.xyz", name: "安全", meaning: "安全", namecheapPrice: "2,000" },
-    { domain: "delete.net", name: "刪除", meaning: "刪除", namecheapPrice: "45,000" },
+    { domain: "KuBeh.com", price: "NT$139,354", desc: "台味諧音域名曾以高價成交", descFirst: true, vendor: "godaddy" as const },
+    { domain: "hourwolf.com", price: "NT$75,237", desc: "創意英文組合，買家高價收購", descFirst: true, vendor: "godaddy" as const },
+    { domain: "asecurity.xyz", price: "US$2,000", desc: "簡短關鍵字域名在市場有價", descFirst: true, vendor: "namecheap" as const },
+    { domain: "delete.net", price: "US$45,000", desc: "單字 .net 稀缺性高易成交", descFirst: true, vendor: "namecheap" as const },
   ];
 
   return (
-    <section className="py-14 px-6">
-      <h2 className="text-xl font-semibold text-center text-zinc-200 mb-8">
+    <section ref={sectionRef} className="py-14 px-6">
+      <h2 className="text-xl font-semibold text-center text-zinc-200 mb-2">
         你知道買網域也能賺錢？
       </h2>
-      <div className="grid grid-cols-4 gap-3 sm:gap-4 max-w-5xl mx-auto">
-        {examples.map(({ domain, name, meaning, sellPrice, namecheapPrice }) => (
-          <div key={domain} className="flex flex-col items-center min-w-0 text-center">
-            <Link
-              href={`/results?q=${encodeURIComponent(name)}`}
-              className="glass rounded-xl px-3 sm:px-5 py-4 border border-white/10 hover:border-violet-500/30 transition-all w-full"
-            >
-              <span className="font-mono font-semibold text-violet-300 block truncate whitespace-nowrap">
-                {domain}
-              </span>
-              <span className="text-zinc-500 text-sm whitespace-nowrap">{meaning}</span>
-            </Link>
-            {sellPrice != null && (
-              <Link
-                href={getGoLink("godaddy", domain)}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackEvent("outbound_vendor", { vendor: "godaddy", domain })}
-                className="mt-2 text-sm font-semibold text-emerald-400 hover:text-emerald-300 underline underline-offset-2 whitespace-nowrap"
-              >
-                GoDaddy 售價 NT${sellPrice}
-              </Link>
-            )}
-            {namecheapPrice != null && (
-              <Link
-                href={getGoLink("namecheap", domain)}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackEvent("outbound_vendor", { vendor: "namecheap", domain })}
-                className="mt-1 text-sm font-semibold text-orange-400 hover:text-orange-300 underline underline-offset-2 whitespace-nowrap"
-              >
-                Namecheap 售價 US$ {namecheapPrice}
-              </Link>
-            )}
+      <p className="text-center text-zinc-500 text-sm mb-10 max-w-xl mx-auto">
+        好域名不是花費，是資產。很多 .com 曾以高價成交
+      </p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto mb-10">
+        {examples.map(({ domain, price, desc, descFirst, vendor }) => (
+          <div
+            key={domain}
+            className="glass rounded-xl px-4 py-5 border border-white/10 text-center"
+          >
+            <span className="font-mono font-semibold text-violet-300 block truncate text-sm sm:text-base mb-1">
+              {domain}
+            </span>
+            {descFirst ? (
+              <>
+                <p className="text-zinc-500 text-xs sm:text-sm leading-snug mb-3">
+                  {desc}
+                </p>
+                {vendor === "godaddy" ? (
+                  <Link
+                    href={getGoLink("godaddy", domain)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackEvent("outbound_vendor", { vendor: "godaddy", domain })}
+                    className="w-full inline-flex items-center justify-center px-4 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold transition-colors min-h-[48px]"
+                  >
+                    GoDaddy {price}
+                  </Link>
+                ) : (
+                  <Link
+                    href={getGoLink("namecheap", domain)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackEvent("outbound_vendor", { vendor: "namecheap", domain })}
+                    className="w-full inline-flex items-center justify-center px-4 py-3.5 rounded-xl bg-orange-500 hover:bg-orange-400 text-white text-sm font-semibold transition-colors min-h-[48px]"
+                  >
+                    Namecheap {price}
+                  </Link>
+                )}
+              </>
+            ) : null}
           </div>
         ))}
       </div>
-      <p className="text-center text-zinc-500 text-sm mt-4">
-        立即選購有特色的網域並持有拍賣
-      </p>
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+        <button
+          type="button"
+          onClick={scrollToSearchAndFocus}
+          className="glow-btn inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-violet-500 to-violet-600 text-white font-semibold text-base hover:from-violet-400 hover:to-violet-500 transition-all min-h-[52px] w-full sm:w-auto"
+        >
+          <Search className="w-5 h-5 shrink-0" />
+          立即查我的域名
+        </button>
+        <a
+          href={NAMEBIO_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => trackEvent("value_anchor_examples_click", {})}
+          className="text-zinc-500 text-sm hover:text-zinc-400 underline underline-offset-2 transition-colors"
+        >
+          查看更多成交案例
+        </a>
+      </div>
     </section>
   );
 }
@@ -200,6 +253,7 @@ function BlogPreview() {
     { href: "/blog/bluehost-tutorial", title: "如何用 Bluehost 架設 WordPress 網站？" },
     { href: "/blog/godaddy-tutorial", title: "GoDaddy 網域註冊教學" },
     { href: "/blog/namecheap-tutorial", title: "Namecheap 網域註冊教學" },
+    { href: "/blog/wordpress-complete-guide-2026", title: "2026 WordPress 完整架站攻略" },
   ];
 
   return (
@@ -284,7 +338,7 @@ export default function HomePage() {
     <>
       <HeroSection />
       <TrustBar />
-      <PreviewResults />
+      <ValueAnchorSection />
       <HowItWorks />
       <BlogPreview />
       <HostingSection />

@@ -50,7 +50,7 @@ export default function BlogListPage() {
             {posts.map((post) => (
               <li key={post.slug}>
                 <Link
-                  href={post.slug === 'bluehost-tutorial' ? '/blog/bluehost-tutorial' : post.slug === 'godaddy-tutorial' ? '/blog/godaddy-tutorial' : post.slug === 'namecheap-tutorial' ? '/blog/namecheap-tutorial' : `/blog/${post.slug}`}
+                  href={post.slug === 'bluehost-tutorial' ? '/blog/bluehost-tutorial' : post.slug === 'godaddy-tutorial' ? '/blog/godaddy-tutorial' : post.slug === 'namecheap-tutorial' ? '/blog/namecheap-tutorial' : post.slug === 'wordpress-complete-guide-2026' ? '/blog/wordpress-complete-guide-2026' : `/blog/${post.slug}`}
                   className="glass rounded-xl p-5 block border border-white/5 hover:border-white/15 transition-colors group"
                 >
                   <h2 className="font-semibold text-lg text-zinc-100 group-hover:text-violet-300 transition-colors">
