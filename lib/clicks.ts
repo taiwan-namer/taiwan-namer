@@ -1,6 +1,9 @@
 /**
  * Click logging：timestamp, referrer, domain, vendor
  * 使用 in-memory 儲存（部署可改為 SQLite / Serverless KV）
+ *
+ * 注意：在 Serverless（如 Vercel）環境下，每次 /go/[vendor] 與 /admin/clicks 可能由不同 instance 處理，
+ * 後台看到的點擊數可能為 0 或偏低。正式環境建議改為持久化儲存（DB、Redis、Vercel KV 等）。
  */
 
 export type ClickRecord = {
