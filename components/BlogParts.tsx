@@ -125,14 +125,16 @@ export function CTAButton() {
 }
 
 // 6. 步驟區塊 (Step Block)
-export function StepBlock({ step, title, children }: { step: string; title: string; children: React.ReactNode }) {
+export function StepBlock({ step, title, children }: { step: string; title: string; children?: React.ReactNode }) {
   return (
     <div className="my-12 pl-6 border-l-2 border-zinc-800 hover:border-blue-500/50 transition-colors">
       <div className="text-blue-500 font-mono text-sm tracking-wider mb-2">STEP {step}</div>
       <h3 className="text-xl font-bold text-zinc-100 mb-4">{title}</h3>
-      <div className="text-zinc-400 leading-relaxed space-y-4">
-        {children}
-      </div>
+      {children != null && (
+        <div className="text-zinc-400 leading-relaxed space-y-4">
+          {children}
+        </div>
+      )}
     </div>
   );
 }

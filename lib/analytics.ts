@@ -20,7 +20,13 @@ export type TrackParams = {
   value_anchor_examples_click?: Record<string, never>;
 };
 
-export function trackEvent(event: TrackEventName, params?: TrackParams[typeof event]): void {
+export function trackEvent(event: "generate", params?: { keyword?: string }): void;
+export function trackEvent(event: "outbound_vendor", params?: { vendor: string; domain?: string; source?: string }): void;
+export function trackEvent(event: "copy", params?: { domain: string }): void;
+export function trackEvent(event: "favorite", params?: { domain: string; action: "add" | "remove" }): void;
+export function trackEvent(event: "value_anchor_view", params?: Record<string, never>): void;
+export function trackEvent(event: "value_anchor_examples_click", params?: Record<string, never>): void;
+export function trackEvent(event: TrackEventName, params?: unknown): void {
   if (typeof window === "undefined") return;
 
   const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag;
