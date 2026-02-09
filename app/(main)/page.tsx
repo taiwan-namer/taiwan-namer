@@ -129,15 +129,6 @@ function ValueAnchorSection() {
     return () => observer.disconnect();
   }, []);
 
-  const scrollToSearchAndFocus = () => {
-    trackEvent("value_anchor_cta_click", {});
-    const input = document.getElementById("hero-keyword");
-    if (input) {
-      input.scrollIntoView({ behavior: "smooth", block: "center" });
-      setTimeout(() => (input as HTMLInputElement).focus(), 400);
-    }
-  };
-
   const examples = [
     { domain: "KuBeh.com", price: "NT$139,354", desc: "台味諧音域名曾以高價成交", descFirst: true, vendor: "godaddy" as const },
     { domain: "hourwolf.com", price: "NT$75,237", desc: "創意英文組合，買家高價收購", descFirst: true, vendor: "godaddy" as const },
@@ -193,15 +184,7 @@ function ValueAnchorSection() {
           </div>
         ))}
       </div>
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-        <button
-          type="button"
-          onClick={scrollToSearchAndFocus}
-          className="glow-btn inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-violet-500 to-violet-600 text-white font-semibold text-base hover:from-violet-400 hover:to-violet-500 transition-all min-h-[52px] w-full sm:w-auto"
-        >
-          <Search className="w-5 h-5 shrink-0" />
-          立即查我的域名
-        </button>
+      <div className="flex justify-center">
         <a
           href={NAMEBIO_URL}
           target="_blank"
