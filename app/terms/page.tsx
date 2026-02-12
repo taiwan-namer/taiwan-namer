@@ -2,8 +2,8 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 export const metadata = {
-  title: "服務條款 | 台味命名大師",
-  description: "台味命名大師網站使用條款：使用本網站即表示您同意遵守以下條款。",
+  title: "服務條款 | 台式網域命名",
+  description: "台式網域命名網站使用條款：使用本網站即表示您同意遵守以下條款。",
 };
 
 export default function TermsPage() {
@@ -14,7 +14,7 @@ export default function TermsPage() {
           <Link href="/" className="text-zinc-400 hover:text-white transition text-sm flex items-center gap-2">
             <ArrowLeft className="w-4 h-4" /> 回首頁
           </Link>
-          <div className="text-sm font-bold text-zinc-500">台味命名大師</div>
+          <div className="text-sm font-bold text-zinc-500">台式網域命名</div>
         </div>
       </nav>
 
@@ -28,7 +28,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">1. 接受條款</h2>
             <p>
-              使用台味命名大師（Taiwan Namer）網站（以下稱「本網站」）即表示您同意本服務條款。若您不同意本條款，請勿使用本網站。
+              使用台式網域命名（Taiwan Namer）網站（以下稱「本網站」）即表示您同意本服務條款。若您不同意本條款，請勿使用本網站。
             </p>
           </section>
 
@@ -49,7 +49,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">4. 智慧財產權</h2>
             <p>
-              本網站之內容、版面設計、商標與程式（除另有標示或第三方授權外）為台味命名大師或相關權利人所有。除本條款或法律另有允許外，未經授權不得重製、改作、散布或商業利用。
+              本網站之內容、版面設計、商標與程式（除另有標示或第三方授權外）為台式網域命名或相關權利人所有。除本條款或法律另有允許外，未經授權不得重製、改作、散布或商業利用。
             </p>
           </section>
 

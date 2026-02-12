@@ -1,4 +1,4 @@
-# 台味命名大師 - 軟體架構設計文檔
+# 台式網域命名 - 軟體架構設計文檔
 
 ## 1. 系統概述
 
@@ -1034,7 +1034,7 @@ test('should complete full search flow', async ({ page }) => {
 ### 13.1 README.md
 
 ```markdown
-# 台味命名大師
+# 台式網域命名
 
 ## 快速開始
 

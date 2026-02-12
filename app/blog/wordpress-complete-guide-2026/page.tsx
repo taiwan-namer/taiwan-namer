@@ -43,7 +43,7 @@ export default function WordPressCompleteGuidePage() {
           <Link href="/blog" className="flex items-center text-zinc-400 hover:text-white transition text-sm">
             <ArrowLeft className="w-4 h-4 mr-2" /> 回部落格
           </Link>
-          <div className="text-sm font-bold text-zinc-500">台味命名大師</div>
+          <div className="text-sm font-bold text-zinc-500">台式網域命名</div>
         </div>
       </nav>
 

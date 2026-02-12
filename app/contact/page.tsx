@@ -2,8 +2,8 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 export const metadata = {
-  title: "聯絡我們 | 台味命名大師",
-  description: "如有合作、建議或詢問，歡迎透過 email 與台味命名大師聯絡。",
+  title: "聯絡我們 | 台式網域命名",
+  description: "如有合作、建議或詢問，歡迎透過 email 與台式網域命名聯絡。",
 };
 
 export default function ContactPage() {
@@ -14,7 +14,7 @@ export default function ContactPage() {
           <Link href="/" className="text-zinc-400 hover:text-white transition text-sm flex items-center gap-2">
             <ArrowLeft className="w-4 h-4" /> 回首頁
           </Link>
-          <div className="text-sm font-bold text-zinc-500">台味命名大師</div>
+          <div className="text-sm font-bold text-zinc-500">台式網域命名</div>
         </div>
       </nav>
 
@@ -25,7 +25,7 @@ export default function ContactPage() {
 
         <div className="space-y-6 text-zinc-300 leading-relaxed">
           <p>
-            感謝你對台味命名大師的關注。若你有任何建議、合作邀約或使用上的問題，歡迎與我們聯繫。
+            感謝你對台式網域命名的關注。若你有任何建議、合作邀約或使用上的問題，歡迎與我們聯繫。
           </p>
           <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
             <h2 className="text-lg font-semibold text-zinc-200 mb-2">聯繫方式</h2>

@@ -26,7 +26,7 @@ export default function MainLayout({
             </div>
             <div className="flex flex-col">
               <span className="font-semibold text-lg tracking-tight leading-none">
-                台味命名大師
+                台式網域命名
               </span>
               <span className="text-zinc-500 text-xs font-normal tracking-wide">
                 Taiwan Namer

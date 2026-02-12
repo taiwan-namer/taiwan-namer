@@ -3,7 +3,7 @@ import { getAllPosts } from "@/lib/posts";
 import { FileText } from "lucide-react";
 
 export const metadata = {
-  title: "部落格 | 台味命名大師",
+  title: "部落格 | 台式網域命名",
   description: "網域、架站、WordPress 教學與主機推薦文章。",
 };
 

@@ -2,8 +2,8 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 export const metadata = {
-  title: "隱私權政策 | 台味命名大師",
-  description: "台味命名大師隱私權政策：我們如何收集、使用與保護您的個人資料，以及聯盟行銷揭露說明。",
+  title: "隱私權政策 | 台式網域命名",
+  description: "台式網域命名隱私權政策：我們如何收集、使用與保護您的個人資料，以及聯盟行銷揭露說明。",
 };
 
 export default function PrivacyPage() {
@@ -14,7 +14,7 @@ export default function PrivacyPage() {
           <Link href="/" className="text-zinc-400 hover:text-white transition text-sm flex items-center gap-2">
             <ArrowLeft className="w-4 h-4" /> 回首頁
           </Link>
-          <div className="text-sm font-bold text-zinc-500">台味命名大師</div>
+          <div className="text-sm font-bold text-zinc-500">台式網域命名</div>
         </div>
       </nav>
 
@@ -28,7 +28,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">1. 適用範圍</h2>
             <p>
-              本隱私權政策適用於台味命名大師（Taiwan Namer）網站（以下稱「本網站」）所收集、使用與保護的個人資料。使用本網站即表示您同意本政策所載之內容。
+              本隱私權政策適用於台式網域命名（Taiwan Namer）網站（以下稱「本網站」）所收集、使用與保護的個人資料。使用本網站即表示您同意本政策所載之內容。
             </p>
           </section>
 

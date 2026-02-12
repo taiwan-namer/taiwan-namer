@@ -2,8 +2,8 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 export const metadata = {
-  title: "關於我們 | 台味命名大師",
-  description: "台味命名大師致力於提供免費的 AI 命名工具與架站教學，幫助台灣創業者降低門檻，從命名到架站一站完成。",
+  title: "關於我們 | 台式網域命名",
+  description: "台式網域命名致力於提供免費的 AI 命名工具與架站教學，幫助台灣創業者降低門檻，從命名到架站一站完成。",
 };
 
 export default function AboutPage() {
@@ -14,13 +14,13 @@ export default function AboutPage() {
           <Link href="/" className="text-zinc-400 hover:text-white transition text-sm flex items-center gap-2">
             <ArrowLeft className="w-4 h-4" /> 回首頁
           </Link>
-          <div className="text-sm font-bold text-zinc-500">台味命名大師</div>
+          <div className="text-sm font-bold text-zinc-500">台式網域命名</div>
         </div>
       </nav>
 
       <main className="max-w-3xl mx-auto px-6 py-12">
         <h1 className="text-3xl md:text-4xl font-bold text-white mb-8 border-b border-white/10 pb-4">
-          關於台味命名大師
+          關於台式網域命名
         </h1>
 
         <div className="space-y-6 text-zinc-300 leading-relaxed">

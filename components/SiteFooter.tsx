@@ -13,7 +13,7 @@ export function SiteFooter() {
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
               <div className="flex flex-col">
-                <span className="font-semibold text-lg tracking-tight leading-none">台味命名大師</span>
+                <span className="font-semibold text-lg tracking-tight leading-none">台式網域命名</span>
                 <span className="text-zinc-500 text-xs font-normal tracking-wide">Taiwan Namer</span>
               </div>
             </Link>

@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getPostBySlug(slug);
   if (!post) return { title: "文章不存在" };
   return {
-    title: `${post.title} | 台味命名大師部落格`,
+    title: `${post.title} | 台式網域命名部落格`,
     description: post.description || post.title,
     openGraph: {
       title: post.title,
