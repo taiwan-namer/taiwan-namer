@@ -260,15 +260,6 @@ function ResultsContent() {
 
                   {/* 主要 CTA：查價／立即註冊 */}
                   <div className="flex-shrink-0 p-4 bg-black/20 border-t border-white/5 flex flex-col gap-3">
-                    <Link
-                      href={getGoLink("godaddy", domain)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => trackEvent("outbound_vendor", { vendor: "godaddy", domain })}
-                      className="w-full inline-flex items-center justify-center px-4 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold transition-colors min-h-[48px]"
-                    >
-                      GoDaddy
-                    </Link>
                     {showNamecheap && (
                       <Link
                         href={getGoLink("namecheap", domain)}

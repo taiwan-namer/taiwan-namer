@@ -2,15 +2,9 @@ import Link from "next/link";
 import { ArticleHeader, SectionTitle, StepBlock } from "@/components/BlogParts";
 import { ArrowLeft } from "lucide-react";
 
-// 與首頁一致：無 CJ 時連官網，之後可改為聯盟連結
-const GO_GODADDY = "/go/godaddy";
-
-function GoDaddyAffiliate({ children }: { children: React.ReactNode }) {
-  return (
-    <Link href={GO_GODADDY} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
-      {children}
-    </Link>
-  );
+/** 保留文章內 GoDaddy 名稱顯示，不帶連結（聯盟未通過） */
+function GoDaddyText({ children }: { children: React.ReactNode }) {
+  return <span className="text-zinc-200">{children}</span>;
 }
 
 export const metadata = {
@@ -46,7 +40,7 @@ export default function GoDaddyTutorialPage() {
             <div className="mb-12 text-zinc-300 leading-relaxed">
               <h2 className="text-2xl font-bold text-white mt-12 mb-6 border-l-4 border-blue-500 pl-4">前言：為什麼選擇 GoDaddy？</h2>
               <p className="text-zinc-300 mb-6 leading-relaxed">
-                在 2026 年的今天，市面上雖然出現了許多新興的網域註冊商，但 <GoDaddyAffiliate>GoDaddy</GoDaddyAffiliate> 依然是許多新手踏入網路世界的第一站。這不僅是因為它是全球最大的網域供應商，更因為其介面的直覺性，讓即便完全不懂程式碼的人，也能在幾分鐘內擁有自己的網路門牌。
+                在 2026 年的今天，市面上雖然出現了許多新興的網域註冊商，但 <GoDaddyText>GoDaddy</GoDaddyText> 依然是許多新手踏入網路世界的第一站。這不僅是因為它是全球最大的網域供應商，更因為其介面的直覺性，讓即便完全不懂程式碼的人，也能在幾分鐘內擁有自己的網路門牌。
               </p>
 
               <h3 className="text-xl font-bold text-white mt-8 mb-4">2026 年選擇 GoDaddy 的優缺點分析</h3>
@@ -91,7 +85,7 @@ export default function GoDaddyTutorialPage() {
                 第一步：搜尋並挑選你的完美網域
               </h2>
               <p className="text-zinc-300 mb-6 leading-relaxed">
-                在進入 <GoDaddyAffiliate>GoDaddy</GoDaddyAffiliate> 官網後，第一件事就是透過搜尋框尋找你心儀的名稱。這步看似簡單，但其實藏著不少策略，挑錯了可能會影響你未來的品牌形象或荷包。
+                在進入 <GoDaddyText>GoDaddy</GoDaddyText> 官網後，第一件事就是透過搜尋框尋找你心儀的名稱。這步看似簡單，但其實藏著不少策略，挑錯了可能會影響你未來的品牌形象或荷包。
               </p>
 
               <SectionTitle id="chapter-1">1. 如何使用關鍵字搜尋？</SectionTitle>
@@ -139,7 +133,7 @@ export default function GoDaddyTutorialPage() {
                 第二步：購買流程拆解（避開自動加購陷阱）
               </h2>
               <p className="text-zinc-300 mb-6 leading-relaxed">
-                挑選好網域並點擊「加入購物車」後，真正的考驗才開始。<GoDaddyAffiliate>GoDaddy</GoDaddyAffiliate> 會在結帳過程中推銷許多額外服務，以下是我的「省錢避坑」指南：
+                挑選好網域並點擊「加入購物車」後，真正的考驗才開始。<GoDaddyText>GoDaddy</GoDaddyText> 會在結帳過程中推銷許多額外服務，以下是我的「省錢避坑」指南：
               </p>
 
               <SectionTitle id="chapter-5">1. 快速通關：點擊「繼續前往購物車」</SectionTitle>
@@ -235,7 +229,7 @@ export default function GoDaddyTutorialPage() {
 
               <SectionTitle id="chapter-13">1. 開啟／關閉「自動續費」的時機</SectionTitle>
               <p className="text-zinc-300 mb-4 leading-relaxed">
-                在 <GoDaddyAffiliate>GoDaddy</GoDaddyAffiliate> 後台，每筆網域預設通常是開啟「自動續費」的。
+                在 <GoDaddyText>GoDaddy</GoDaddyText> 後台，每筆網域預設通常是開啟「自動續費」的。
               </p>
               <ul className="list-disc pl-6 space-y-2 text-zinc-300 mb-6">
                 <li><strong className="text-green-400">建議開啟：</strong>若此網域是長期經營的品牌、公司官網，請務必保持開啟，避免因信用卡過期或忘記繳費導致網域被搶註。</li>
@@ -308,21 +302,13 @@ export default function GoDaddyTutorialPage() {
               </div>
             </div>
 
-            {/* GoDaddy CTA（與首頁一致） */}
+            {/* CTA：引導使用本站工具 */}
             <div className="my-16 p-8 md:p-12 bg-gradient-to-br from-zinc-900 to-black border border-zinc-800 rounded-3xl text-center relative overflow-hidden group">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500" />
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-violet-500 via-blue-500 to-pink-500" />
               <h3 className="text-2xl font-bold text-white mb-4">準備好查詢或註冊網域了嗎？</h3>
-              <p className="text-zinc-400 mb-8 max-w-lg mx-auto">
-                前往 GoDaddy 搜尋網域、比價，或使用本站首頁的 AI 命名工具先發想好名字再查。
+              <p className="text-zinc-400 max-w-lg mx-auto">
+                使用本站首頁的 AI 命名工具先發想好名字，再到註冊商官網查價與購買。
               </p>
-              <a
-                href={GO_GODADDY}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-4 rounded-full text-lg font-bold transition-all transform hover:scale-105 shadow-lg shadow-emerald-900/50"
-              >
-                前往 GoDaddy 查詢網域 →
-              </a>
             </div>
           </article>
 
@@ -371,13 +357,10 @@ export default function GoDaddyTutorialPage() {
                 </a>
               </nav>
 
-              <div className="mt-8 p-5 bg-gradient-to-br from-emerald-900/20 to-green-900/20 rounded-xl border border-emerald-500/20 text-center">
-                <p className="text-xs text-emerald-300 mb-2 uppercase tracking-wider">Domain Search</p>
-                <div className="text-xl font-bold text-white mb-1">GoDaddy 查價</div>
-                <div className="text-xs text-zinc-400 mb-4">與首頁 AI 命名工具搭配使用</div>
-                <a href={GO_GODADDY} target="_blank" rel="noopener noreferrer" className="block w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold py-3 rounded-lg transition shadow-lg shadow-emerald-900/30">
-                  前往 GoDaddy
-                </a>
+              <div className="mt-8 p-5 bg-gradient-to-br from-violet-900/20 to-blue-900/20 rounded-xl border border-violet-500/20 text-center">
+                <p className="text-xs text-violet-300 mb-2 uppercase tracking-wider">AI 命名工具</p>
+                <div className="text-xl font-bold text-white mb-1">台式網域命名</div>
+                <div className="text-xs text-zinc-400">首頁可免費產生網域建議</div>
               </div>
             </div>
           </aside>

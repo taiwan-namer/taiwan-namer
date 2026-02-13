@@ -3,7 +3,6 @@ import { ArticleHeader, SectionTitle, StepBlock, CTAButton } from "@/components/
 import { ArrowLeft } from "lucide-react";
 
 const GO_BLUEHOST = "/go/bluehost";
-const GO_GODADDY = "/go/godaddy";
 const GO_NAMECHEAP = "/go/namecheap";
 
 function Affiliate({ children }: { children: React.ReactNode }) {
@@ -14,12 +13,9 @@ function Affiliate({ children }: { children: React.ReactNode }) {
   );
 }
 
-function GoDaddyAffiliate({ children }: { children: React.ReactNode }) {
-  return (
-    <Link href={GO_GODADDY} target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-300 hover:underline">
-      {children}
-    </Link>
-  );
+/** GoDaddy 聯盟未通過，僅顯示名稱不帶連結 */
+function GoDaddyText({ children }: { children: React.ReactNode }) {
+  return <span className="text-zinc-200">{children}</span>;
 }
 
 function NamecheapAffiliate({ children }: { children: React.ReactNode }) {
@@ -119,12 +115,12 @@ export default function WordPressCompleteGuidePage() {
 
               <h3 className="text-xl font-bold text-white mt-8 mb-4">方案 B：資產分離管理法</h3>
               <p className="text-zinc-300 mb-4 leading-relaxed">
-                在專業網域商（如 <GoDaddyAffiliate>GoDaddy</GoDaddyAffiliate> 或 <NamecheapAffiliate>Namecheap</NamecheapAffiliate>）買網域，主機再另外租。
+                在專業網域商（如 <GoDaddyText>GoDaddy</GoDaddyText> 或 <NamecheapAffiliate>Namecheap</NamecheapAffiliate>）買網域，主機再另外租。
               </p>
               <ul className="list-disc pl-6 space-y-2 text-zinc-300 mb-6">
                 <li><strong className="text-green-400">優點：</strong>專業管理、轉移彈性（未來若想更換主機，網域資產依然獨立管理）。</li>
                 <li><strong className="text-white"><NamecheapAffiliate>Namecheap</NamecheapAffiliate>：</strong>續約不漲價，且永久免費提供隱私保護。</li>
-                <li><strong className="text-white"><GoDaddyAffiliate>GoDaddy</GoDaddyAffiliate>：</strong>中文介面最親民，首年促銷力度大。</li>
+                <li><strong className="text-white"><GoDaddyText>GoDaddy</GoDaddyText>：</strong>中文介面最親民，首年促銷力度大。</li>
                 <li><strong className="text-white">適合誰：</strong>已經有心儀網域、或未來打算管理多個網站的資深玩家。</li>
               </ul>
             </div>

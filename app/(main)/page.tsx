@@ -99,7 +99,6 @@ function TrustBar() {
         </span>
         <span className="text-zinc-600">|</span>
         <span className="text-zinc-500">合作夥伴：</span>
-        <Link href="/go/godaddy" target="_blank" rel="noopener noreferrer" className="text-emerald-400 font-medium hover:text-emerald-300 hover:underline transition-colors" onClick={() => trackEvent("outbound_vendor", { vendor: "godaddy", source: "trustbar" })}>GoDaddy</Link>
         <Link href="/go/namecheap" target="_blank" rel="noopener noreferrer" className="text-orange-400 font-medium hover:text-orange-300 hover:underline transition-colors" onClick={() => trackEvent("outbound_vendor", { vendor: "namecheap", source: "trustbar" })}>Namecheap</Link>
         <Link href="/go/bluehost" target="_blank" rel="noopener noreferrer" className="text-blue-400 font-medium hover:text-blue-300 hover:underline transition-colors" onClick={() => trackEvent("outbound_vendor", { vendor: "bluehost", source: "trustbar" })}>Bluehost</Link>
       </div>
@@ -130,8 +129,8 @@ function ValueAnchorSection() {
   }, []);
 
   const examples = [
-    { domain: "KuBeh.com", price: "NT$139,354", desc: "台味諧音域名曾以高價成交", descFirst: true, vendor: "godaddy" as const },
-    { domain: "hourwolf.com", price: "NT$75,237", desc: "創意英文組合，買家高價收購", descFirst: true, vendor: "godaddy" as const },
+    { domain: "KuBeh.com", price: "US$495", desc: "台味諧音域名曾以高價成交", descFirst: true, vendor: "namecheap" as const },
+    { domain: "acegrips.com", price: "US$3,585", desc: "創意英文組合，買家高價收購", descFirst: true, vendor: "namecheap" as const },
     { domain: "asecurity.xyz", price: "US$2,000", desc: "簡短關鍵字域名在市場有價", descFirst: true, vendor: "namecheap" as const },
     { domain: "delete.net", price: "US$45,000", desc: "單字 .net 稀缺性高易成交", descFirst: true, vendor: "namecheap" as const },
   ];
@@ -158,27 +157,15 @@ function ValueAnchorSection() {
                 <p className="text-zinc-500 text-xs sm:text-sm leading-snug mb-3">
                   {desc}
                 </p>
-                {vendor === "godaddy" ? (
-                  <Link
-                    href={getGoLink("godaddy", domain)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => trackEvent("outbound_vendor", { vendor: "godaddy", domain })}
-                    className="w-full inline-flex items-center justify-center px-4 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold transition-colors min-h-[48px]"
-                  >
-                    GoDaddy {price}
-                  </Link>
-                ) : (
-                  <Link
-                    href={getGoLink("namecheap", domain)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => trackEvent("outbound_vendor", { vendor: "namecheap", domain })}
-                    className="w-full inline-flex items-center justify-center px-4 py-3.5 rounded-xl bg-orange-500 hover:bg-orange-400 text-white text-sm font-semibold transition-colors min-h-[48px]"
-                  >
-                    Namecheap {price}
-                  </Link>
-                )}
+                <Link
+                  href={getGoLink("namecheap", domain)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackEvent("outbound_vendor", { vendor: "namecheap", domain })}
+                  className="w-full inline-flex items-center justify-center px-4 py-3.5 rounded-xl bg-orange-500 hover:bg-orange-400 text-white text-sm font-semibold transition-colors min-h-[48px]"
+                >
+                  Namecheap {price}
+                </Link>
               </>
             ) : null}
           </div>

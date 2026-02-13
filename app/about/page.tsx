@@ -28,7 +28,7 @@ export default function AboutPage() {
             我是 <strong className="text-zinc-200">CHING YEN LO</strong>，一名台灣的網頁開發者。在做專案與接案的過程中，我發現很多創業者卡在「取名字」和「架網站」的第一步——不是想不到好名字，就是不知道從哪裡開始架站。
           </p>
           <p>
-            所以有了 Taiwan Namer。這不是一個冷冰冰的 AI 工具，而是我希望能幫助台灣品牌走向國際的起點：用諧音梗、在地文化與筆畫邏輯幫你發想網域，再一鍵連到 GoDaddy、Namecheap 查價，以及用 Bluehost 教學帶你從零架好 WordPress。
+            所以有了 Taiwan Namer。這不是一個冷冰冰的 AI 工具，而是我希望能幫助台灣品牌走向國際的起點：用諧音梗、在地文化與筆畫邏輯幫你發想網域，再一鍵連到 Namecheap 查價，以及用 Bluehost 教學帶你從零架好 WordPress。
           </p>
           <p>
             <strong className="text-zinc-200">Real person, real developer.</strong> 如果你在用這個網站，背後是一個真的在寫 code、在維護內容的人。歡迎用到你的專案或品牌上，有想法也歡迎從聯絡頁跟我說。

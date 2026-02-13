@@ -25,14 +25,10 @@ export default function AdminClicksPage() {
           <p className="text-zinc-500">無法載入統計（請確認 API /api/clicks/stats 可用）</p>
         ) : (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
               <div className="glass rounded-xl p-4 border border-white/5">
                 <p className="text-zinc-500 text-sm">總點擊</p>
                 <p className="text-2xl font-bold text-white">{stats.total}</p>
-              </div>
-              <div className="glass rounded-xl p-4 border border-white/5">
-                <p className="text-zinc-500 text-sm">GoDaddy</p>
-                <p className="text-2xl font-bold text-emerald-400">{stats.byVendor?.godaddy ?? 0}</p>
               </div>
               <div className="glass rounded-xl p-4 border border-white/5">
                 <p className="text-zinc-500 text-sm">Namecheap</p>

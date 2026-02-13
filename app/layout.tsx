@@ -44,7 +44,6 @@ export const metadata: Metadata = {
     "台灣品牌命名",
     "Domain Name Generator",
     "創業工具",
-    "GoDaddy比價",
     "Namecheap推薦",
     "品牌算命",
   ],

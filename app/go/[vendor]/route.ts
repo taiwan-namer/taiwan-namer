@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getRedirectUrl, type Vendor } from "@/lib/redirect";
 import { logClick } from "@/lib/clicks";
 
-const VENDORS: Vendor[] = ["godaddy", "namecheap", "bluehost"];
+const VENDORS: Vendor[] = ["namecheap", "bluehost"];
 
 export async function GET(
   request: NextRequest,
